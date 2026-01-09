@@ -1,10 +1,10 @@
 # Machine Learning Operations Project - Translation system from English to Spanish
 
-Sarah Tauro - s243927
-Jorge Ernesto Figueroa Vallecillo - s250273
-Álvaro Quintana López - s250202
-Víctor Cabré i Guerrero - s254631
-Cesia Niquen Tapia - s250829
+- Sarah Tauro - s243927
+- Jorge Ernesto Figueroa Vallecillo - s250273
+- Álvaro Quintana López - s250202
+- Víctor Cabré i Guerrero - s254631
+- Cesia Niquen Tapia - s250829
 
 
 
