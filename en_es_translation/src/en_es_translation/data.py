@@ -84,8 +84,13 @@ def preprocess(
                 inputs.append(prefix + en)
                 targets.append(es)
 
-    print("Tokenizing data...")
-    # Tokenize inputs
+        if not inputs:
+            raise ValueError(
+                f"No data found! Check if the files at {raw_path} are empty or if the paths are correct."
+            )
+
+        print(f"Tokenizing {len(inputs)} samples...")
+        # Tokenize inputs
     model_inputs = tokenizer(
         inputs,
         max_length=128,
@@ -111,10 +116,23 @@ def preprocess(
     }
     tokenized_data["labels"][tokenized_data["labels"] == tokenizer.pad_token_id] = -100
 
-    output_file = processed_path / "train_data.pt"
-    torch.save(tokenized_data, output_file)
-    print(f"Preprocessed data saved to {output_file}")
+    # Create 3-way splits: 80% Train, 10% Eval, 10% Test
+    num_total = len(tokenized_data["input_ids"])
+    train_end = int(num_total * 0.8)
+    eval_end = int(num_total * 0.9)
 
+    train_data = {k: v[:train_end] for k, v in tokenized_data.items()}
+    eval_data = {k: v[train_end:eval_end] for k, v in tokenized_data.items()}
+    test_data = {k: v[eval_end:] for k, v in tokenized_data.items()}
+
+    torch.save(train_data, processed_path / "train_data.pt")
+    torch.save(eval_data, processed_path / "eval_data.pt")
+    torch.save(test_data, processed_path / "test_data.pt")
+    
+    print(f"Split complete: {len(train_data['input_ids'])} train, "
+          f"{len(eval_data['input_ids'])} eval, "
+          f"{len(test_data['input_ids'])} test.")
+    print(f"Preprocessed data saved to {processed_path}")
 
 if __name__ == "__main__":
     typer.run(preprocess)
