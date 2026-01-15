@@ -1,1 +1,8 @@
 en_es_translation/data/
+en_es_translation/models/checkpoints/
+lightning_logs/
+.venv/
+__pycache__/
+*.pt
+*.es
+*.en
