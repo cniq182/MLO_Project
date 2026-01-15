@@ -19,7 +19,10 @@ readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
     "fastapi==0.115.6",
+    "pytorch-lightning>=2.6.0",
+    "sentencepiece>=0.2.1",
     "torch==2.6.0",
+    "transformers>=4.57.5",
     "typer==0.15.1",
     "uvicorn==0.34.0",
 ]
