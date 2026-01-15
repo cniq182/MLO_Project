@@ -15,6 +15,7 @@ class MyDataset(Dataset):
     """Dataset for fine-tuning T5 translation models."""
 
     def __init__(self, data_path: Path) -> None:
+        # weights_only=False is needed because we are loading a dict of tensors
         self.data = torch.load(data_path, weights_only=False)
 
     def __len__(self) -> int:
@@ -26,6 +27,31 @@ class MyDataset(Dataset):
             "attention_mask": self.data["attention_mask"][idx],
             "labels": self.data["labels"][idx],
         }
+
+
+def get_datasets(
+    processed_dir: str = "en_es_translation/data/processed",
+) -> tuple[MyDataset, MyDataset, MyDataset]:
+    """
+    Returns (train, eval, test) datasets. 
+    If they don't exist, it runs the preprocessing automatically.
+    """
+    processed_path = Path(processed_dir)
+    train_file = processed_path / "train_data.pt"
+    eval_file = processed_path / "eval_data.pt"
+    test_file = processed_path / "test_data.pt"
+
+    if not (train_file.exists() and eval_file.exists() and test_file.exists()):
+        print("Processed files not found. Starting preprocessing...")
+        preprocess(processed_dir=str(processed_path))
+    else:
+        print(f"Loading existing processed data from {processed_path}...")
+
+    return (
+        MyDataset(train_file),
+        MyDataset(eval_file),
+        MyDataset(test_file),
+    )
 
 
 def download_and_extract(raw_dir: Path) -> None:
@@ -84,13 +110,11 @@ def preprocess(
                 inputs.append(prefix + en)
                 targets.append(es)
 
-        if not inputs:
-            raise ValueError(
-                f"No data found! Check if the files at {raw_path} are empty or if the paths are correct."
-            )
+    if not inputs:
+        raise ValueError(f"No data found in {raw_path}. Are the files empty?")
 
-        print(f"Tokenizing {len(inputs)} samples...")
-        # Tokenize inputs
+    print(f"Tokenizing {len(inputs)} samples...")
+    # Tokenize inputs
     model_inputs = tokenizer(
         inputs,
         max_length=128,
@@ -99,7 +123,7 @@ def preprocess(
         return_tensors="pt",
     )
 
-    # Tokenize targets (labels)
+    # Tokenize targets (labels) using the modern text_target argument
     labels = tokenizer(
         text_target=targets,
         max_length=128,
@@ -116,23 +140,22 @@ def preprocess(
     }
     tokenized_data["labels"][tokenized_data["labels"] == tokenizer.pad_token_id] = -100
 
-    # Create 3-way splits: 80% Train, 10% Eval, 10% Test
+    # Create 80/10/10 splits
     num_total = len(tokenized_data["input_ids"])
     train_end = int(num_total * 0.8)
     eval_end = int(num_total * 0.9)
 
-    train_data = {k: v[:train_end] for k, v in tokenized_data.items()}
-    eval_data = {k: v[train_end:eval_end] for k, v in tokenized_data.items()}
-    test_data = {k: v[eval_end:] for k, v in tokenized_data.items()}
+    splits = {
+        "train_data.pt": {k: v[:train_end] for k, v in tokenized_data.items()},
+        "eval_data.pt": {k: v[train_end:eval_end] for k, v in tokenized_data.items()},
+        "test_data.pt": {k: v[eval_end:] for k, v in tokenized_data.items()},
+    }
 
-    torch.save(train_data, processed_path / "train_data.pt")
-    torch.save(eval_data, processed_path / "eval_data.pt")
-    torch.save(test_data, processed_path / "test_data.pt")
-    
-    print(f"Split complete: {len(train_data['input_ids'])} train, "
-          f"{len(eval_data['input_ids'])} eval, "
-          f"{len(test_data['input_ids'])} test.")
+    for filename, data in splits.items():
+        torch.save(data, processed_path / filename)
+
     print(f"Preprocessed data saved to {processed_path}")
+
 
 if __name__ == "__main__":
     typer.run(preprocess)
