@@ -110,7 +110,7 @@ class Model(pl.LightningModule):
         return torch.optim.AdamW(self.parameters(), lr=self.lr)
 
 # --- Built-in Verification Block ---
-if __name__ == "_main_":
+if __name__ == "__main__":
     # Check if we can initialize and run a dummy pass
     print("Testing Model initialization...")
     test_model = Model(lr=1e-4, batch_size=2)
