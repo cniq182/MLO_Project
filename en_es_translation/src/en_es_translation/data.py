@@ -84,7 +84,7 @@ def download_and_extract(raw_dir: Path) -> None:
 def preprocess(
     raw_dir: str = "en_es_translation/data/raw",
     processed_dir: str = "en_es_translation/data/processed",
-    num_samples: int = 10000,
+    num_samples: int = 50000,
 ) -> None:
     """Download, extract, and tokenize data for T5 fine-tuning."""
     raw_path = Path(raw_dir)

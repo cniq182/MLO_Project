@@ -13,7 +13,7 @@ def train():
     checkpoint_dir = "en_es_translation/models/checkpoints"
     
     batch_size = 16 # Lowered batch size for smaller test
-    epochs = 5     # Just 2 epochs to see the transition
+    epochs = 3     # Just 2 epochs to see the transition
     lr = 1e-4
 
     print("Loading Datasets")
@@ -21,8 +21,8 @@ def train():
 
     
     # We take only the first 100 samples for training and 50 for validation
-    train_set = Subset(train_set, range(min(len(train_set), 2000)))
-    eval_set = Subset(eval_set, range(min(len(eval_set), 200)))
+    train_set = Subset(train_set, range(min(len(train_set), 50000)))
+    eval_set = Subset(eval_set, range(min(len(eval_set), 20000)))
     print(f"DEBUG: Running with {len(train_set)} training samples.")
 
     train_loader = DataLoader(train_set, batch_size=batch_size, shuffle=True, num_workers=0)

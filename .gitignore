@@ -1,6 +1,8 @@
 en_es_translation/data/
 en_es_translation/models/checkpoints/
 lightning_logs/
+logs/
+jobs/
 .venv/
 __pycache__/
 *.pt
