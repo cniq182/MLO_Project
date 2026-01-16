@@ -130,6 +130,7 @@ will check the repositories and the code to verify your answers.
 > **Enter the study number for each member in the group**
 >
 > Answer:
+
     s243927, s250273, s250202,s254631,s250829
 
 --- question 2 fill here ---
@@ -145,6 +146,7 @@ will check the repositories and the code to verify your answers.
 > *package to do ... and ... in our project*.
 >
 > Answer:
+
 Yes, we used several open-source tools that were not directly covered in the course.
 We mainly used the Hugging Face Transformers library, which made it easy to load and fine-tune pretrained transformer models such as T5. This allowed us to focus on adapting existing models to the translation task instead of implementing them from scratch.
 We also used the Hugging Face Datasets package to load and preprocess the OpenSubtitles dataset from OPUS. It simplified handling large amounts of parallel text data.
@@ -166,6 +168,7 @@ We also used the Hugging Face Datasets package to load and preprocess the OpenSu
 > Example:
 >
 > Answer:
+
 We managed dependencies using Python’s pyproject.toml, together with a lock file (uv.lock). All required packages and their versions are defined in these files, which ensures that everyone in the group uses the same dependencies.
 
 To allow reproducibility, we used uv as the package and environment manager. The lock file guarantees that the exact same versions of all dependencies are installed on different machines.
@@ -188,6 +191,7 @@ Following these steps ensures that a new team member can reproduce the same envi
 > Recommended answer length: 100-200 words
 >
 > Answer:
+
 We initialized our project using the course-provided cookiecutter template, which gave us a standardized and organized project structure.
 
 When setting up the project, we filled out the cookiecutter prompts such as the project name, package name, and basic metadata. Most default settings provided by the template were kept, as they already matched the needs of our project.
@@ -206,6 +210,7 @@ We made a small deviation from the template by adding a  main.py file. This file
 > Recommended answer length: 100-200 words.
 >
 > Answer:
+
 We did not use automatic tools for code formatting or linting, such as Black or Flake8. Instead, we tried to keep the code readable by following common Python style conventions and by writing clear and consistent code within the group.
 
 We also did not use explicit typing or type-checking tools. Most functions were written without type hints, as the main focus of the project was on implementing and testing the machine translation pipeline rather than enforcing strict type rules.
