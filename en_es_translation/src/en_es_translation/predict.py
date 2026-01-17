@@ -1,4 +1,5 @@
-from model import Model
+from en_es_translation.model import Model
+
 import torch
 
 def main():
