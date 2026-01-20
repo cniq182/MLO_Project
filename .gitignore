@@ -8,3 +8,11 @@ __pycache__/
 *.pt
 *.es
 *.en
+/outputs/2026-01-20/16-03-08/.hydra/config.yaml
+/outputs/2026-01-20/16-03-08/.hydra/hydra.yaml
+/outputs/2026-01-20/16-03-08/.hydra/overrides.yaml
+/outputs/2026-01-20/16-03-08/train.log
+/outputs/2026-01-20/16-03-26/.hydra/config.yaml
+/outputs/2026-01-20/16-03-26/.hydra/hydra.yaml
+/outputs/2026-01-20/16-03-26/.hydra/overrides.yaml
+/outputs/2026-01-20/16-03-26/train.log
