@@ -1,0 +1,15 @@
+# @package model
+
+# Model hyperparameters
+lr: 1e-4
+batch_size: 16
+max_source_length: 128
+max_target_length: 128
+
+# Model architecture
+model_name: "google-t5/t5-small"
+prefix: "translate English to Spanish: "
+
+# Generation parameters
+max_new_tokens: 64
+num_beams: 4

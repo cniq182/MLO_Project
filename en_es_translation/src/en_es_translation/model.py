@@ -1,8 +1,7 @@
-from typing import Dict, List, Optional
+from typing import Dict, List
 import pytorch_lightning as pl
 import torch
 from transformers import T5ForConditionalGeneration, T5Tokenizer
-from pathlib import Path
 
 class Model(pl.LightningModule):
     def __init__(
@@ -11,6 +10,10 @@ class Model(pl.LightningModule):
         batch_size: int = 16,
         max_source_length: int = 128,
         max_target_length: int = 128,
+        model_name: str = "google-t5/t5-small",
+        prefix: str = "translate English to Spanish: ",
+        max_new_tokens: int = 64,
+        num_beams: int = 4,
         *args,
         **kwargs,
     ) -> None:
@@ -25,8 +28,6 @@ class Model(pl.LightningModule):
         self.save_hyperparameters()
 
         # Model definition
-        model_name = "google-t5/t5-small"
-        
         print(f"--- Verification: Loading {model_name} weights ---")
         self.tokenizer = T5Tokenizer.from_pretrained(model_name)
         self.t5 = T5ForConditionalGeneration.from_pretrained(model_name)
@@ -35,17 +36,26 @@ class Model(pl.LightningModule):
         self.batch_size = batch_size
         self.max_source_length = max_source_length
         self.max_target_length = max_target_length
+        self.model_name = model_name
+        self.prefix = prefix
+        self.max_new_tokens = max_new_tokens
+        self.num_beams = num_beams
         
-        # T5 standard prefix for English to Spanish translation
-        self.prefix = "translate English to Spanish: "
-        
-        print(f"--- Model successfully initialized ---")
+        print("--- Model successfully initialized ---")
 
-    def forward(self, x: List[str], max_new_tokens: int = 64) -> List[str]:
+    def forward(self, x: List[str], max_new_tokens: int = None) -> List[str]:
         """
         Inference pass: Takes a list of English strings and returns Spanish strings.
         Used for evaluation and real-world testing.
+        
+        Args:
+            x: List of input English strings
+            max_new_tokens: Maximum number of tokens to generate. If None, uses self.max_new_tokens
         """
+        # Use instance default if not provided
+        if max_new_tokens is None:
+            max_new_tokens = self.max_new_tokens
+            
         # Add prefix to each sentence
         prefixed_x = [self.prefix + s for s in x]
 
@@ -61,7 +71,7 @@ class Model(pl.LightningModule):
             input_ids=inputs.input_ids,
             attention_mask=inputs.attention_mask,
             max_new_tokens=max_new_tokens,
-            num_beams=4,
+            num_beams=self.num_beams,
         )
 
         return [self.tokenizer.decode(o, skip_special_tokens=True) for o in outputs]
