@@ -1,5 +1,4 @@
 import os
-import torch
 import pytorch_lightning as pl
 from torch.utils.data import DataLoader, Subset
 from pytorch_lightning.callbacks import ModelCheckpoint
