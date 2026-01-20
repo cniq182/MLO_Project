@@ -1,0 +1,128 @@
+2026-01-20 16:05:06,160 - __main__ - DEBUG - Raw English/Spanish files already exist. Skipping download.
+2026-01-20 16:05:06,161 - __main__ - INFO - Loading HuggingFace tokenizer: google-t5/t5-small
+2026-01-20 16:05:06,165 - urllib3.connectionpool - DEBUG - Starting new HTTPS connection (1): huggingface.co:443
+2026-01-20 16:05:06,332 - urllib3.connectionpool - DEBUG - https://huggingface.co:443 "HEAD /google-t5/t5-small/resolve/main/tokenizer_config.json HTTP/1.1" 307 0
+2026-01-20 16:05:06,353 - urllib3.connectionpool - DEBUG - https://huggingface.co:443 "HEAD /api/resolve-cache/models/google-t5/t5-small/df1b051c49625cf57a3d0d8d3863ed4d13564fe4/tokenizer_config.json HTTP/1.1" 200 0
+2026-01-20 16:05:06,517 - urllib3.connectionpool - DEBUG - https://huggingface.co:443 "GET /api/models/google-t5/t5-small/tree/main/additional_chat_templates?recursive=False&expand=False HTTP/1.1" 404 64
+2026-01-20 16:05:06,690 - urllib3.connectionpool - DEBUG - https://huggingface.co:443 "GET /api/models/google-t5/t5-small/tree/main?recursive=True&expand=False HTTP/1.1" 200 4840
+2026-01-20 16:05:06,787 - __main__ - DEBUG - Starting file stream for 50000 samples.
+2026-01-20 16:05:06,795 - __main__ - DEBUG - Processed 10000 raw lines...
+2026-01-20 16:05:06,803 - __main__ - DEBUG - Processed 20000 raw lines...
+2026-01-20 16:05:06,810 - __main__ - DEBUG - Processed 30000 raw lines...
+2026-01-20 16:05:06,818 - __main__ - DEBUG - Processed 40000 raw lines...
+2026-01-20 16:05:06,827 - __main__ - INFO - Tokenizing 49995 sentence pairs...
+2026-01-20 16:05:19,013 - __main__ - INFO - Split train_data.pt saved with 39996 items.
+2026-01-20 16:05:19,372 - __main__ - INFO - Split eval_data.pt saved with 4999 items.
+2026-01-20 16:05:19,732 - __main__ - INFO - Split test_data.pt saved with 5000 items.
+2026-01-20 16:05:19,732 - __main__ - INFO - Data preprocessing finished successfully.
+2026-01-20 16:07:09,340 - __main__ - INFO - Loading datasets...
+2026-01-20 16:07:09,340 - data - DEBUG - Checking for processed files in: en_es_translation/data/processed
+2026-01-20 16:07:09,342 - data - INFO - All processed files found on disk.
+2026-01-20 16:07:09,342 - data - DEBUG - Attempting to load tensor data from: en_es_translation/data/processed/train_data.pt
+2026-01-20 16:07:09,863 - data - INFO - Loaded dataset from train_data.pt with 39996 samples.
+2026-01-20 16:07:09,863 - data - DEBUG - Attempting to load tensor data from: en_es_translation/data/processed/eval_data.pt
+2026-01-20 16:07:10,390 - data - INFO - Loaded dataset from eval_data.pt with 4999 samples.
+2026-01-20 16:07:10,390 - data - DEBUG - Attempting to load tensor data from: en_es_translation/data/processed/test_data.pt
+2026-01-20 16:07:10,892 - data - INFO - Loaded dataset from test_data.pt with 5000 samples.
+2026-01-20 16:07:10,892 - __main__ - INFO - DEBUG: Running with 500 training samples and 100 eval samples.
+2026-01-20 16:07:10,893 - __main__ - INFO - Initializing model with learning rate: 0.001
+2026-01-20 16:07:10,900 - urllib3.connectionpool - DEBUG - Starting new HTTPS connection (1): huggingface.co:443
+2026-01-20 16:07:11,094 - urllib3.connectionpool - DEBUG - https://huggingface.co:443 "HEAD /google-t5/t5-small/resolve/main/tokenizer_config.json HTTP/1.1" 307 0
+2026-01-20 16:07:11,288 - urllib3.connectionpool - DEBUG - https://huggingface.co:443 "HEAD /api/resolve-cache/models/google-t5/t5-small/df1b051c49625cf57a3d0d8d3863ed4d13564fe4/tokenizer_config.json HTTP/1.1" 200 0
+2026-01-20 16:07:11,415 - urllib3.connectionpool - DEBUG - https://huggingface.co:443 "GET /api/models/google-t5/t5-small/tree/main/additional_chat_templates?recursive=False&expand=False HTTP/1.1" 404 64
+2026-01-20 16:07:11,544 - urllib3.connectionpool - DEBUG - https://huggingface.co:443 "GET /api/models/google-t5/t5-small/tree/main?recursive=True&expand=False HTTP/1.1" 200 4840
+2026-01-20 16:07:11,857 - urllib3.connectionpool - DEBUG - https://huggingface.co:443 "HEAD /google-t5/t5-small/resolve/main/config.json HTTP/1.1" 307 0
+2026-01-20 16:07:11,877 - urllib3.connectionpool - DEBUG - https://huggingface.co:443 "HEAD /api/resolve-cache/models/google-t5/t5-small/df1b051c49625cf57a3d0d8d3863ed4d13564fe4/config.json HTTP/1.1" 200 0
+2026-01-20 16:07:11,999 - urllib3.connectionpool - DEBUG - https://huggingface.co:443 "HEAD /google-t5/t5-small/resolve/main/config.json HTTP/1.1" 307 0
+2026-01-20 16:07:12,020 - urllib3.connectionpool - DEBUG - https://huggingface.co:443 "HEAD /api/resolve-cache/models/google-t5/t5-small/df1b051c49625cf57a3d0d8d3863ed4d13564fe4/config.json HTTP/1.1" 200 0
+2026-01-20 16:07:12,190 - urllib3.connectionpool - DEBUG - https://huggingface.co:443 "HEAD /google-t5/t5-small/resolve/main/generation_config.json HTTP/1.1" 307 0
+2026-01-20 16:07:12,213 - urllib3.connectionpool - DEBUG - https://huggingface.co:443 "HEAD /api/resolve-cache/models/google-t5/t5-small/df1b051c49625cf57a3d0d8d3863ed4d13564fe4/generation_config.json HTTP/1.1" 200 0
+2026-01-20 16:07:12,411 - urllib3.connectionpool - DEBUG - https://huggingface.co:443 "HEAD /google-t5/t5-small/resolve/main/custom_generate/generate.py HTTP/1.1" 404 0
+2026-01-20 16:07:12,415 - __main__ - INFO - Running PyTorch profiler on one training step...
+2026-01-20 16:07:15,169 - __main__ - INFO - 
+-----------------------------  ------------  ------------  ------------  ------------  ------------  ------------  
+                         Name    Self CPU %      Self CPU   CPU total %     CPU total  CPU time avg    # of Calls  
+-----------------------------  ------------  ------------  ------------  ------------  ------------  ------------  
+                 aten::matmul         0.11%       2.690ms        47.26%        1.154s       8.679ms           133  
+                 aten::linear         0.03%     687.881us        41.77%        1.020s      10.519ms            97  
+                     aten::mm        41.51%        1.014s        41.52%        1.014s      10.455ms            97  
+                aten::dropout         0.06%       1.439ms        37.87%     924.872ms      14.451ms            64  
+             aten::bernoulli_        32.27%     788.157ms        32.27%     788.157ms      12.315ms            64  
+                    aten::mul         6.81%     166.329ms         6.81%     166.372ms       1.242ms           134  
+                    aten::bmm         3.98%      97.198ms         3.98%      97.248ms       2.701ms            36  
+     aten::cross_entropy_loss         0.00%      43.954us         2.52%      61.442ms      61.442ms             1  
+            aten::log_softmax         0.00%      18.377us         2.51%      61.325ms      61.325ms             1  
+           aten::_log_softmax         2.51%      61.305ms         2.51%      61.305ms      61.305ms             1  
+-----------------------------  ------------  ------------  ------------  ------------  ------------  ------------  
+Self CPU time total: 2.443s
+
+2026-01-20 16:07:15,233 - __main__ - INFO - Starting trainer.fit()...
+2026-01-20 16:07:15,249 - fsspec.local - DEBUG - open file: /zhome/4b/6/219339/MLO_Project/lightning_logs/version_1/hparams.yaml
+2026-01-20 16:07:23,243 - fsspec.local - DEBUG - open file: /zhome/4b/6/219339/MLO_Project/lightning_logs/version_1/metrics.csv
+2026-01-20 16:07:28,560 - fsspec.local - DEBUG - open file: /zhome/4b/6/219339/MLO_Project/lightning_logs/version_1/metrics.csv
+2026-01-20 16:07:33,718 - fsspec.local - DEBUG - open file: /zhome/4b/6/219339/MLO_Project/lightning_logs/version_1/metrics.csv
+2026-01-20 16:07:38,835 - fsspec.local - DEBUG - open file: /zhome/4b/6/219339/MLO_Project/lightning_logs/version_1/metrics.csv
+2026-01-20 16:07:43,976 - fsspec.local - DEBUG - open file: /zhome/4b/6/219339/MLO_Project/lightning_logs/version_1/metrics.csv
+2026-01-20 16:07:49,118 - fsspec.local - DEBUG - open file: /zhome/4b/6/219339/MLO_Project/lightning_logs/version_1/metrics.csv
+2026-01-20 16:07:54,212 - fsspec.local - DEBUG - open file: /zhome/4b/6/219339/MLO_Project/lightning_logs/version_1/metrics.csv
+2026-01-20 16:07:59,301 - fsspec.local - DEBUG - open file: /zhome/4b/6/219339/MLO_Project/lightning_logs/version_1/metrics.csv
+2026-01-20 16:08:04,405 - fsspec.local - DEBUG - open file: /zhome/4b/6/219339/MLO_Project/lightning_logs/version_1/metrics.csv
+2026-01-20 16:08:09,507 - fsspec.local - DEBUG - open file: /zhome/4b/6/219339/MLO_Project/lightning_logs/version_1/metrics.csv
+2026-01-20 16:08:14,600 - fsspec.local - DEBUG - open file: /zhome/4b/6/219339/MLO_Project/lightning_logs/version_1/metrics.csv
+2026-01-20 16:08:19,747 - fsspec.local - DEBUG - open file: /zhome/4b/6/219339/MLO_Project/lightning_logs/version_1/metrics.csv
+2026-01-20 16:08:24,901 - fsspec.local - DEBUG - open file: /zhome/4b/6/219339/MLO_Project/lightning_logs/version_1/metrics.csv
+2026-01-20 16:08:30,018 - fsspec.local - DEBUG - open file: /zhome/4b/6/219339/MLO_Project/lightning_logs/version_1/metrics.csv
+2026-01-20 16:08:35,159 - fsspec.local - DEBUG - open file: /zhome/4b/6/219339/MLO_Project/lightning_logs/version_1/metrics.csv
+2026-01-20 16:08:40,288 - fsspec.local - DEBUG - open file: /zhome/4b/6/219339/MLO_Project/lightning_logs/version_1/metrics.csv
+2026-01-20 16:08:45,481 - fsspec.local - DEBUG - open file: /zhome/4b/6/219339/MLO_Project/lightning_logs/version_1/metrics.csv
+2026-01-20 16:08:50,785 - fsspec.local - DEBUG - open file: /zhome/4b/6/219339/MLO_Project/lightning_logs/version_1/metrics.csv
+2026-01-20 16:08:55,961 - fsspec.local - DEBUG - open file: /zhome/4b/6/219339/MLO_Project/lightning_logs/version_1/metrics.csv
+2026-01-20 16:09:01,161 - fsspec.local - DEBUG - open file: /zhome/4b/6/219339/MLO_Project/lightning_logs/version_1/metrics.csv
+2026-01-20 16:09:06,325 - fsspec.local - DEBUG - open file: /zhome/4b/6/219339/MLO_Project/lightning_logs/version_1/metrics.csv
+2026-01-20 16:09:11,452 - fsspec.local - DEBUG - open file: /zhome/4b/6/219339/MLO_Project/lightning_logs/version_1/metrics.csv
+2026-01-20 16:09:16,586 - fsspec.local - DEBUG - open file: /zhome/4b/6/219339/MLO_Project/lightning_logs/version_1/metrics.csv
+2026-01-20 16:09:21,744 - fsspec.local - DEBUG - open file: /zhome/4b/6/219339/MLO_Project/lightning_logs/version_1/metrics.csv
+2026-01-20 16:09:26,902 - fsspec.local - DEBUG - open file: /zhome/4b/6/219339/MLO_Project/lightning_logs/version_1/metrics.csv
+2026-01-20 16:09:32,041 - fsspec.local - DEBUG - open file: /zhome/4b/6/219339/MLO_Project/lightning_logs/version_1/metrics.csv
+2026-01-20 16:09:37,162 - fsspec.local - DEBUG - open file: /zhome/4b/6/219339/MLO_Project/lightning_logs/version_1/metrics.csv
+2026-01-20 16:09:42,300 - fsspec.local - DEBUG - open file: /zhome/4b/6/219339/MLO_Project/lightning_logs/version_1/metrics.csv
+2026-01-20 16:09:47,462 - fsspec.local - DEBUG - open file: /zhome/4b/6/219339/MLO_Project/lightning_logs/version_1/metrics.csv
+2026-01-20 16:09:52,626 - fsspec.local - DEBUG - open file: /zhome/4b/6/219339/MLO_Project/lightning_logs/version_1/metrics.csv
+2026-01-20 16:09:57,733 - fsspec.local - DEBUG - open file: /zhome/4b/6/219339/MLO_Project/lightning_logs/version_1/metrics.csv
+2026-01-20 16:10:02,862 - fsspec.local - DEBUG - open file: /zhome/4b/6/219339/MLO_Project/lightning_logs/version_1/metrics.csv
+2026-01-20 16:10:08,030 - fsspec.local - DEBUG - open file: /zhome/4b/6/219339/MLO_Project/lightning_logs/version_1/metrics.csv
+2026-01-20 16:10:13,162 - fsspec.local - DEBUG - open file: /zhome/4b/6/219339/MLO_Project/lightning_logs/version_1/metrics.csv
+2026-01-20 16:10:18,343 - fsspec.local - DEBUG - open file: /zhome/4b/6/219339/MLO_Project/lightning_logs/version_1/metrics.csv
+2026-01-20 16:10:23,524 - fsspec.local - DEBUG - open file: /zhome/4b/6/219339/MLO_Project/lightning_logs/version_1/metrics.csv
+2026-01-20 16:10:28,698 - fsspec.local - DEBUG - open file: /zhome/4b/6/219339/MLO_Project/lightning_logs/version_1/metrics.csv
+2026-01-20 16:10:33,959 - fsspec.local - DEBUG - open file: /zhome/4b/6/219339/MLO_Project/lightning_logs/version_1/metrics.csv
+2026-01-20 16:10:39,097 - fsspec.local - DEBUG - open file: /zhome/4b/6/219339/MLO_Project/lightning_logs/version_1/metrics.csv
+2026-01-20 16:10:44,219 - fsspec.local - DEBUG - open file: /zhome/4b/6/219339/MLO_Project/lightning_logs/version_1/metrics.csv
+2026-01-20 16:10:49,337 - fsspec.local - DEBUG - open file: /zhome/4b/6/219339/MLO_Project/lightning_logs/version_1/metrics.csv
+2026-01-20 16:10:54,471 - fsspec.local - DEBUG - open file: /zhome/4b/6/219339/MLO_Project/lightning_logs/version_1/metrics.csv
+2026-01-20 16:10:59,608 - fsspec.local - DEBUG - open file: /zhome/4b/6/219339/MLO_Project/lightning_logs/version_1/metrics.csv
+2026-01-20 16:11:04,762 - fsspec.local - DEBUG - open file: /zhome/4b/6/219339/MLO_Project/lightning_logs/version_1/metrics.csv
+2026-01-20 16:11:09,878 - fsspec.local - DEBUG - open file: /zhome/4b/6/219339/MLO_Project/lightning_logs/version_1/metrics.csv
+2026-01-20 16:11:15,024 - fsspec.local - DEBUG - open file: /zhome/4b/6/219339/MLO_Project/lightning_logs/version_1/metrics.csv
+2026-01-20 16:11:20,270 - fsspec.local - DEBUG - open file: /zhome/4b/6/219339/MLO_Project/lightning_logs/version_1/metrics.csv
+2026-01-20 16:11:25,384 - fsspec.local - DEBUG - open file: /zhome/4b/6/219339/MLO_Project/lightning_logs/version_1/metrics.csv
+2026-01-20 16:11:30,508 - fsspec.local - DEBUG - open file: /zhome/4b/6/219339/MLO_Project/lightning_logs/version_1/metrics.csv
+2026-01-20 16:11:35,651 - fsspec.local - DEBUG - open file: /zhome/4b/6/219339/MLO_Project/lightning_logs/version_1/metrics.csv
+2026-01-20 16:11:40,778 - fsspec.local - DEBUG - open file: /zhome/4b/6/219339/MLO_Project/lightning_logs/version_1/metrics.csv
+2026-01-20 16:11:45,899 - fsspec.local - DEBUG - open file: /zhome/4b/6/219339/MLO_Project/lightning_logs/version_1/metrics.csv
+2026-01-20 16:11:51,023 - fsspec.local - DEBUG - open file: /zhome/4b/6/219339/MLO_Project/lightning_logs/version_1/metrics.csv
+2026-01-20 16:11:56,123 - fsspec.local - DEBUG - open file: /zhome/4b/6/219339/MLO_Project/lightning_logs/version_1/metrics.csv
+2026-01-20 16:12:01,228 - fsspec.local - DEBUG - open file: /zhome/4b/6/219339/MLO_Project/lightning_logs/version_1/metrics.csv
+2026-01-20 16:12:06,363 - fsspec.local - DEBUG - open file: /zhome/4b/6/219339/MLO_Project/lightning_logs/version_1/metrics.csv
+2026-01-20 16:12:11,458 - fsspec.local - DEBUG - open file: /zhome/4b/6/219339/MLO_Project/lightning_logs/version_1/metrics.csv
+2026-01-20 16:12:16,551 - fsspec.local - DEBUG - open file: /zhome/4b/6/219339/MLO_Project/lightning_logs/version_1/metrics.csv
+2026-01-20 16:12:21,665 - fsspec.local - DEBUG - open file: /zhome/4b/6/219339/MLO_Project/lightning_logs/version_1/metrics.csv
+2026-01-20 16:12:26,800 - fsspec.local - DEBUG - open file: /zhome/4b/6/219339/MLO_Project/lightning_logs/version_1/metrics.csv
+2026-01-20 16:12:31,966 - fsspec.local - DEBUG - open file: /zhome/4b/6/219339/MLO_Project/lightning_logs/version_1/metrics.csv
+2026-01-20 16:12:37,114 - fsspec.local - DEBUG - open file: /zhome/4b/6/219339/MLO_Project/lightning_logs/version_1/metrics.csv
+2026-01-20 16:12:39,994 - fsspec.local - DEBUG - open file: /zhome/4b/6/219339/MLO_Project/lightning_logs/version_1/metrics.csv
+2026-01-20 16:12:55,316 - fsspec.local - DEBUG - open file: /zhome/4b/6/219339/MLO_Project/lightning_logs/version_1/metrics.csv
+2026-01-20 16:12:55,317 - fsspec.local - DEBUG - open file: /zhome/4b/6/219339/MLO_Project/lightning_logs/version_1/metrics.csv
+2026-01-20 16:12:55,319 - fsspec.local - DEBUG - open file: /zhome/4b/6/219339/MLO_Project/lightning_logs/version_1/metrics.csv
+2026-01-20 16:12:55,907 - fsspec.local - DEBUG - open file: /zhome/4b/6/219339/MLO_Project/en_es_translation/models/checkpoints/best-checkpoint-epoch=00-val_loss=2.74.ckpt
+2026-01-20 16:12:58,537 - __main__ - INFO - Training complete. Checkpoints saved to: en_es_translation/models/checkpoints

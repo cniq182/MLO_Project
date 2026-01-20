@@ -1,6 +1,8 @@
 import os
+import logging
 import torch
 import pytorch_lightning as pl
+from pathlib import Path
 from torch.utils.data import DataLoader, Subset
 from pytorch_lightning.callbacks import ModelCheckpoint
 from torch.profiler import profile, ProfilerActivity
@@ -8,22 +10,38 @@ from torch.profiler import profile, ProfilerActivity
 from model import Model
 from data import get_datasets
 
+# --- M14: Advanced Logging Setup ---
+log_dir = Path("logs_logging")
+log_dir.mkdir(exist_ok=True)
+
+logging.basicConfig(
+    level=logging.INFO, # Using INFO for training to keep the console clean
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    handlers=[
+        logging.FileHandler(log_dir / "training.log"),
+        logging.StreamHandler()
+    ]
+)
+logger = logging.getLogger(__name__)
 
 def train():
     processed_data_dir = "en_es_translation/data/processed"
     checkpoint_dir = "en_es_translation/models/checkpoints"
 
-    batch_size = 16
-    epochs = 3
-    lr = 1e-4
+    batch_size = 8
+    epochs = 1
+    lr = 1e-3
 
-    print("Loading datasets")
+    logger.info("Loading datasets...")
     train_set, eval_set, _ = get_datasets(processed_dir=processed_data_dir)
 
     # Use subsets to keep runtime reasonable
-    train_set = Subset(train_set, range(min(len(train_set), 50000)))
-    eval_set = Subset(eval_set, range(min(len(eval_set), 20000)))
-    print(f"DEBUG: Running with {len(train_set)} training samples")
+    train_size = min(len(train_set), 500)
+    eval_size = min(len(eval_set), 100)
+    train_set = Subset(train_set, range(train_size))
+    eval_set = Subset(eval_set, range(eval_size))
+    
+    logger.info(f"DEBUG: Running with {train_size} training samples and {eval_size} eval samples.")
 
     train_loader = DataLoader(
         train_set,
@@ -37,14 +55,13 @@ def train():
         num_workers=0,
     )
 
-    print("Initializing model")
+    logger.info(f"Initializing model with learning rate: {lr}")
     model = Model(lr=lr, batch_size=batch_size)
 
     # --------------------------------------------------
     # 🔍 PROFILING BLOCK (M13)
-    # Profile ONE training step (correct for text models)
     # --------------------------------------------------
-    print("\nRunning PyTorch profiler on one training step")
+    logger.info("Running PyTorch profiler on one training step...")
 
     model.train()
     batch = next(iter(train_loader))
@@ -55,10 +72,8 @@ def train():
     ) as prof:
         model.training_step(batch, batch_idx=0)
 
-    print(
-        prof.key_averages()
-        .table(sort_by="cpu_time_total", row_limit=10)
-    )
+    # Logging the profiler table instead of just printing it
+    logger.info("\n" + prof.key_averages().table(sort_by="cpu_time_total", row_limit=10))
 
     # --------------------------------------------------
     # Normal training
@@ -80,11 +95,15 @@ def train():
         log_every_n_steps=1,
     )
 
-    print("Starting training")
+    logger.info("Starting trainer.fit()...")
     trainer.fit(model, train_loader, val_loader)
 
-    print("Training complete")
+    logger.info("Training complete. Checkpoints saved to: %s", checkpoint_dir)
 
 
 if __name__ == "__main__":
-    train()
+    try:
+        train()
+    except Exception as e:
+        logger.exception("Training process failed!")
+        raise
