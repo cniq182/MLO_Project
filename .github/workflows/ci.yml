@@ -27,8 +27,7 @@ jobs:
         run: pip install uv
 
       - name: Install dependencies
-        working-directory: en_es_translation
-        run: uv sync
+        run: uv sync --group dev
 
       - name: Run tests + coverage
         working-directory: en_es_translation

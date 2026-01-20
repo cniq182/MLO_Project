@@ -21,6 +21,8 @@ dependencies = [
 [dependency-groups]
 dev = [
     "cookiecutter>=2.6.0",
+    "pytest>=8.0.0",
+    "pytest-cov>=4.1.0",
 ]
 
 [tool.uv]
