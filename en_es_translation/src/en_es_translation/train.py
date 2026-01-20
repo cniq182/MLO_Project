@@ -34,7 +34,7 @@ def train():
     os.makedirs(checkpoint_dir, exist_ok=True)
     checkpoint_callback = ModelCheckpoint(
         dirpath=checkpoint_dir,
-        filename="test-run-{epoch:02d}",
+        filename="best-checkpoint-{epoch:02d}-{val_loss:.2f}",
         monitor="val_loss",
         mode="min",
         save_top_k=1,
@@ -52,6 +52,8 @@ def train():
     trainer.fit(model, train_loader, val_loader)
     
     print(f"Test training complete.")
+    print(f"Best model saved at: {checkpoint_callback.best_model_path}")
+    print(f"Best model score: {checkpoint_callback.best_model_score}")
 
 if __name__ == "__main__":
     train()
