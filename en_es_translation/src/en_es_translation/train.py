@@ -1,24 +1,31 @@
 import os
+from pathlib import Path
 import hydra
 from omegaconf import DictConfig, OmegaConf
 import pytorch_lightning as pl
-from pathlib import Path
 from torch.utils.data import DataLoader, Subset
 from pytorch_lightning.callbacks import ModelCheckpoint
 from torch.profiler import profile, ProfilerActivity
+
+# --- M14: W&B Imports ---
+from pytorch_lightning.loggers import WandbLogger
+import wandb
 import logging
 
 from .model import Model
 from .data import get_datasets
 
-# --- M14: Advanced Logging Setup ---
+# Logging Setup
 log_dir = Path("logs_logging")
 log_dir.mkdir(exist_ok=True)
 
 logging.basicConfig(
-    level=logging.INFO,  # Using INFO for training to keep the console clean
-    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-    handlers=[logging.FileHandler(log_dir / "training.log"), logging.StreamHandler()],
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    handlers=[
+        logging.FileHandler(log_dir / "training.log"),
+        logging.StreamHandler()
+    ]
 )
 logger = logging.getLogger(__name__)
 
@@ -32,51 +39,50 @@ if not _CONFIG_PATH.exists():
 
 @hydra.main(version_base=None, config_path=_CONFIG_PATH_STR, config_name="config")
 def train(cfg: DictConfig):
-    """
-    Train the translation model using Hydra configuration.
+    # --- M14: SWEEP INTEGRATION ---
+    # 1. Initialize W&B. If this is a sweep, wandb.init() picks up the sweep params.
+    run = wandb.init() 
+    
+    # 2. Override Hydra config with Sweep parameters
+    # This ensures that cfg.model.lr becomes the value chosen by the sweep.
+    if wandb.run:
+        for key, value in wandb.config.items():
+            logger.info(f"Sweep override: {key} = {value}")
+            # This handles nested keys if they exist (e.g., lr)
+            OmegaConf.update(cfg, key, value, merge=True)
 
-    Args:
-        cfg: Hydra configuration object containing all hyperparameters
-    """
-    # Extract configuration values
+    # Now we use cfg normally, and it contains the sweep values
     processed_data_dir = cfg.paths.processed_data_dir
     checkpoint_dir = cfg.paths.checkpoint_dir
-
-    batch_size = cfg.train.batch_size
-    epochs = cfg.train.epochs
-    # lr = cfg.model.lr
-
-    print("=" * 50)
-    print("Configuration:")
-    print(OmegaConf.to_yaml(cfg))
-    print("=" * 50)
+    
+    # Use WandbLogger and pass the resolved config
+    wandb_logger = WandbLogger(
+        project="en-es-translation",
+        config=OmegaConf.to_container(cfg, resolve=True),
+        log_model="all"
+    )
 
     logger.info("Loading datasets...")
     train_set, eval_set, _ = get_datasets(processed_dir=processed_data_dir)
 
-    # Use subsets to keep runtime reasonable
-    train_set = Subset(
-        train_set, range(min(len(train_set), cfg.train.train_subset_size))
-    )
+    train_set = Subset(train_set, range(min(len(train_set), cfg.train.train_subset_size)))
     eval_set = Subset(eval_set, range(min(len(eval_set), cfg.train.eval_subset_size)))
-    print(f"DEBUG: Running with {len(train_set)} training samples")
 
     train_loader = DataLoader(
         train_set,
-        batch_size=batch_size,
+        batch_size=cfg.train.batch_size, # This will be the sweep value (16 or 32)
         shuffle=cfg.train.shuffle,
         num_workers=cfg.train.num_workers,
     )
     val_loader = DataLoader(
         eval_set,
-        batch_size=batch_size,
+        batch_size=cfg.train.batch_size,
         num_workers=cfg.train.num_workers,
     )
 
-    print("Initializing model")
     model = Model(
-        lr=cfg.model.lr,
-        batch_size=cfg.model.batch_size,
+        lr=cfg.model.lr, # This will be the sweep value (1e-4, 5e-5, or 1e-5)
+        batch_size=cfg.train.batch_size,
         max_source_length=cfg.model.max_source_length,
         max_target_length=cfg.model.max_target_length,
         model_name=cfg.model.model_name,
@@ -109,24 +115,22 @@ def train(cfg: DictConfig):
     checkpoint_callback = ModelCheckpoint(
         dirpath=checkpoint_dir,
         filename=cfg.train.checkpoint_filename,
-        monitor=cfg.train.monitor,
-        mode=cfg.train.mode,
-        save_top_k=cfg.train.save_top_k,
+        monitor="val_loss", # Must match the 'metric' in sweep.yaml
+        mode="min",
+        save_top_k=1,
     )
 
     trainer = pl.Trainer(
-        max_epochs=epochs,
+        max_epochs=cfg.train.epochs,
         accelerator=cfg.train.accelerator,
         devices=cfg.train.devices,
+        logger=wandb_logger,
         callbacks=[checkpoint_callback],
         log_every_n_steps=cfg.train.log_every_n_steps,
     )
 
-    logger.info("Starting trainer.fit()...")
     trainer.fit(model, train_loader, val_loader)
-
-    logger.info("Training complete. Checkpoints saved to: %s", checkpoint_dir)
-
+    wandb.finish()
 
 if __name__ == "__main__":
     try:

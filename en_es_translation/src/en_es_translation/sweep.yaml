@@ -1,14 +1,20 @@
-
-
-program: src/en_es_translation/train.py
+# Ya no ponemos la ruta al archivo .py, sino el nombre del módulo
+program: en_es_translation.train
 method: bayes
 metric:
   name: val_loss
   goal: minimize
 parameters:
-  lr:
-    values: [1e-4, 5e-5, 1e-5]
-  batch_size:
-    values: [16, 32]
-  epochs:
-    value: 5
+  model.lr:
+    values: [1e-2, 5e-3, 1e-3]
+  train.batch_size:
+    values: [8, 16]
+  train.epochs:
+    value: 1
+
+command:
+  - ${env}
+  - python
+  - -m                  # <--- Añadimos esto
+  - ${program}
+  - ${args_no_hyphens}
