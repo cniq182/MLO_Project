@@ -1,8 +1,8 @@
-from typing import Dict, List, Optional
+from typing import Dict, List
 import pytorch_lightning as pl
-import torch
+# import torch
 from transformers import T5ForConditionalGeneration, T5Tokenizer
-from pathlib import Path
+# from pathlib import Path
 
 class Model(pl.LightningModule):
     def __init__(
@@ -39,7 +39,7 @@ class Model(pl.LightningModule):
         # T5 standard prefix for English to Spanish translation
         self.prefix = "translate English to Spanish: "
         
-        print(f"--- Model successfully initialized ---")
+        print("--- Model successfully initialized ---")
 
     def forward(self, x: List[str], max_new_tokens: int = 64) -> List[str]:
         """
