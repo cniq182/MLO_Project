@@ -16,37 +16,36 @@ log_dir = Path("logs_logging")
 log_dir.mkdir(exist_ok=True)
 
 logging.basicConfig(
-    level=logging.INFO, # Using INFO for training to keep the console clean
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    handlers=[
-        logging.FileHandler(log_dir / "training.log"),
-        logging.StreamHandler()
-    ]
+    level=logging.INFO,  # Using INFO for training to keep the console clean
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+    handlers=[logging.FileHandler(log_dir / "training.log"), logging.StreamHandler()],
 )
 logger = logging.getLogger(__name__)
 
 _CONFIG_PATH = Path(__file__).resolve().parent.parent.parent / "configs"
 _CONFIG_PATH_STR = str(_CONFIG_PATH.resolve())
 if not _CONFIG_PATH.exists():
-    raise FileNotFoundError(f"Config directory not found at {_CONFIG_PATH_STR}. Current file: {__file__}")
+    raise FileNotFoundError(
+        f"Config directory not found at {_CONFIG_PATH_STR}. Current file: {__file__}"
+    )
 
 
 @hydra.main(version_base=None, config_path=_CONFIG_PATH_STR, config_name="config")
 def train(cfg: DictConfig):
     """
     Train the translation model using Hydra configuration.
-    
+
     Args:
         cfg: Hydra configuration object containing all hyperparameters
     """
     # Extract configuration values
     processed_data_dir = cfg.paths.processed_data_dir
     checkpoint_dir = cfg.paths.checkpoint_dir
-    
+
     batch_size = cfg.train.batch_size
     epochs = cfg.train.epochs
     lr = cfg.model.lr
-    
+
     print("=" * 50)
     print("Configuration:")
     print(OmegaConf.to_yaml(cfg))
@@ -56,7 +55,9 @@ def train(cfg: DictConfig):
     train_set, eval_set, _ = get_datasets(processed_dir=processed_data_dir)
 
     # Use subsets to keep runtime reasonable
-    train_set = Subset(train_set, range(min(len(train_set), cfg.train.train_subset_size)))
+    train_set = Subset(
+        train_set, range(min(len(train_set), cfg.train.train_subset_size))
+    )
     eval_set = Subset(eval_set, range(min(len(eval_set), cfg.train.eval_subset_size)))
     print(f"DEBUG: Running with {len(train_set)} training samples")
 
@@ -99,10 +100,7 @@ def train(cfg: DictConfig):
         ) as prof:
             model.training_step(batch, batch_idx=0)
 
-        print(
-            prof.key_averages()
-            .table(sort_by="cpu_time_total", row_limit=10)
-        )
+        print(prof.key_averages().table(sort_by="cpu_time_total", row_limit=10))
 
     # --------------------------------------------------
     # Normal training

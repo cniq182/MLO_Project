@@ -1,6 +1,5 @@
 import zipfile
 import logging
-import os
 from pathlib import Path
 
 import requests
@@ -16,13 +15,13 @@ log_dir.mkdir(exist_ok=True)
 
 # 2. Configure logging to use the subfolder
 logging.basicConfig(
-    level=logging.DEBUG, 
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    level=logging.DEBUG,
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
     handlers=[
         # This now points to logs_logging/data_processing.log
         logging.FileHandler(log_dir / "data_processing.log"),
-        logging.StreamHandler()
-    ]
+        logging.StreamHandler(),
+    ],
 )
 logger = logging.getLogger(__name__)
 
@@ -34,7 +33,9 @@ class MyDataset(Dataset):
     def __init__(self, data_path: Path) -> None:
         logger.debug(f"Attempting to load tensor data from: {data_path}")
         self.data = torch.load(data_path, weights_only=False)
-        logger.info(f"Loaded dataset from {data_path.name} with {len(self.data['input_ids'])} samples.")
+        logger.info(
+            f"Loaded dataset from {data_path.name} with {len(self.data['input_ids'])} samples."
+        )
 
     def __len__(self) -> int:
         return len(self.data["input_ids"])
@@ -74,7 +75,7 @@ def download_and_extract(raw_dir: Path) -> None:
     raw_dir.mkdir(parents=True, exist_ok=True)
     en_file = raw_dir / "OpenSubtitles.en-es.en"
     es_file = raw_dir / "OpenSubtitles.en-es.es"
-    
+
     if en_file.exists() and es_file.exists():
         logger.debug("Raw English/Spanish files already exist. Skipping download.")
         return
@@ -120,7 +121,10 @@ def preprocess(
     prefix = "translate English to Spanish: "
 
     logger.debug(f"Starting file stream for {num_samples} samples.")
-    with open(en_file, encoding="utf-8") as f_en, open(es_file, encoding="utf-8") as f_es:
+    with (
+        open(en_file, encoding="utf-8") as f_en,
+        open(es_file, encoding="utf-8") as f_es,
+    ):
         for i, (en, es) in enumerate(zip(f_en, f_es)):
             if i >= num_samples:
                 break
@@ -133,10 +137,18 @@ def preprocess(
 
     logger.info(f"Tokenizing {len(inputs)} sentence pairs...")
     model_inputs = tokenizer(
-        inputs, max_length=128, truncation=True, padding="max_length", return_tensors="pt"
+        inputs,
+        max_length=128,
+        truncation=True,
+        padding="max_length",
+        return_tensors="pt",
     )
     labels = tokenizer(
-        text_target=targets, max_length=128, truncation=True, padding="max_length", return_tensors="pt"
+        text_target=targets,
+        max_length=128,
+        truncation=True,
+        padding="max_length",
+        return_tensors="pt",
     )
 
     tokenized_data = {

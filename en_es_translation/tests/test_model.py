@@ -10,8 +10,9 @@ from en_es_translation.model import Model
 
 def test_model_init_validates_hparams() -> None:
     # lr <= 0
-    with patch("en_es_translation.model.T5Tokenizer.from_pretrained"), patch(
-        "en_es_translation.model.T5ForConditionalGeneration.from_pretrained"
+    with (
+        patch("en_es_translation.model.T5Tokenizer.from_pretrained"),
+        patch("en_es_translation.model.T5ForConditionalGeneration.from_pretrained"),
     ):
         try:
             Model(lr=0.0)
@@ -29,7 +30,9 @@ def test_model_init_validates_hparams() -> None:
 
 @patch("en_es_translation.model.T5ForConditionalGeneration.from_pretrained")
 @patch("en_es_translation.model.T5Tokenizer.from_pretrained")
-def test_forward_returns_list_of_strings(mock_tok_from_pretrained, mock_t5_from_pretrained) -> None:
+def test_forward_returns_list_of_strings(
+    mock_tok_from_pretrained, mock_t5_from_pretrained
+) -> None:
     # Fake tokenizer output: has .to(self.device), .input_ids, .attention_mask
     fake_inputs = MagicMock()
     fake_inputs.input_ids = torch.tensor([[1, 2, 3], [4, 5, 6]], dtype=torch.long)
@@ -65,7 +68,9 @@ def test_forward_returns_list_of_strings(mock_tok_from_pretrained, mock_t5_from_
 
 @patch("en_es_translation.model.T5ForConditionalGeneration.from_pretrained")
 @patch("en_es_translation.model.T5Tokenizer.from_pretrained")
-def test_training_step_logs_and_returns_loss(mock_tok_from_pretrained, mock_t5_from_pretrained) -> None:
+def test_training_step_logs_and_returns_loss(
+    mock_tok_from_pretrained, mock_t5_from_pretrained
+) -> None:
     # Tokenizer isn't used in training_step, but init needs it
     mock_tok_from_pretrained.return_value = MagicMock()
 

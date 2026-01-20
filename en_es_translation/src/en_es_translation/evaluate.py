@@ -14,7 +14,9 @@ def evaluate():
     processed_dir = Path("en_es_translation/data/processed")
 
     # automatically pick latest checkpoint
-    checkpoint_path = max(checkpoint_dir.glob("*.ckpt"), key=lambda p: p.stat().st_mtime)
+    checkpoint_path = max(
+        checkpoint_dir.glob("*.ckpt"), key=lambda p: p.stat().st_mtime
+    )
     print(f"Loading checkpoint: {checkpoint_path}")
 
     # ---------------- load model ----------------
@@ -67,7 +69,7 @@ def evaluate():
     # ---------------- qualitative examples ----------------
     print("\nSample translations:")
     for i in range(5):
-        print(f"\nExample {i+1}")
+        print(f"\nExample {i + 1}")
         print(f"PRED: {predictions[i]}")
         print(f"REF : {references[i]}")
 

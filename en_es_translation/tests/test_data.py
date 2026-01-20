@@ -68,7 +68,9 @@ def test_mydataset_len_and_getitem(tmp_path: Path) -> None:
     assert item["labels"].shape == (8,)
 
 
-def test_preprocess_creates_splits_without_downloading(tmp_path: Path, monkeypatch) -> None:
+def test_preprocess_creates_splits_without_downloading(
+    tmp_path: Path, monkeypatch
+) -> None:
     raw_dir = tmp_path / "raw"
     processed_dir = tmp_path / "processed"
     _write_raw_parallel_files(raw_dir, n_lines=10)

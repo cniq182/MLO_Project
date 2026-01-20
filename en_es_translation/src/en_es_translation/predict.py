@@ -2,6 +2,7 @@ from en_es_translation.model import Model
 
 import torch
 
+
 def main():
     model = Model()
     model.eval()
@@ -13,6 +14,7 @@ def main():
 
     print("EN:", sentence)
     print("ES:", translation)
+
 
 if __name__ == "__main__":
     main()
