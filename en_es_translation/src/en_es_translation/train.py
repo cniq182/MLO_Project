@@ -1,5 +1,4 @@
 import os
-from pathlib import Path
 import hydra
 from omegaconf import DictConfig, OmegaConf
 import pytorch_lightning as pl
@@ -7,6 +6,7 @@ from pathlib import Path
 from torch.utils.data import DataLoader, Subset
 from pytorch_lightning.callbacks import ModelCheckpoint
 from torch.profiler import profile, ProfilerActivity
+import logging
 
 from .model import Model
 from .data import get_datasets
@@ -44,7 +44,7 @@ def train(cfg: DictConfig):
 
     batch_size = cfg.train.batch_size
     epochs = cfg.train.epochs
-    lr = cfg.model.lr
+    # lr = cfg.model.lr
 
     print("=" * 50)
     print("Configuration:")
@@ -132,5 +132,5 @@ if __name__ == "__main__":
     try:
         train()
     except Exception as e:
-        logger.exception("Training process failed!")
+        logger.exception(f"Training process failed! {e}")
         raise
