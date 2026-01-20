@@ -3,6 +3,7 @@ from pathlib import Path
 import hydra
 from omegaconf import DictConfig, OmegaConf
 import pytorch_lightning as pl
+from pathlib import Path
 from torch.utils.data import DataLoader, Subset
 from pytorch_lightning.callbacks import ModelCheckpoint
 from torch.profiler import profile, ProfilerActivity
@@ -10,6 +11,19 @@ from torch.profiler import profile, ProfilerActivity
 from .model import Model
 from .data import get_datasets
 
+# --- M14: Advanced Logging Setup ---
+log_dir = Path("logs_logging")
+log_dir.mkdir(exist_ok=True)
+
+logging.basicConfig(
+    level=logging.INFO, # Using INFO for training to keep the console clean
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    handlers=[
+        logging.FileHandler(log_dir / "training.log"),
+        logging.StreamHandler()
+    ]
+)
+logger = logging.getLogger(__name__)
 
 _CONFIG_PATH = Path(__file__).resolve().parent.parent.parent / "configs"
 _CONFIG_PATH_STR = str(_CONFIG_PATH.resolve())
@@ -38,7 +52,7 @@ def train(cfg: DictConfig):
     print(OmegaConf.to_yaml(cfg))
     print("=" * 50)
 
-    print("Loading datasets")
+    logger.info("Loading datasets...")
     train_set, eval_set, _ = get_datasets(processed_dir=processed_data_dir)
 
     # Use subsets to keep runtime reasonable
@@ -72,7 +86,6 @@ def train(cfg: DictConfig):
 
     # --------------------------------------------------
     # 🔍 PROFILING BLOCK (M13)
-    # Profile ONE training step (correct for text models)
     # --------------------------------------------------
     if cfg.train.enable_profiling:
         print("\nRunning PyTorch profiler on one training step")
@@ -111,11 +124,15 @@ def train(cfg: DictConfig):
         log_every_n_steps=cfg.train.log_every_n_steps,
     )
 
-    print("Starting training")
+    logger.info("Starting trainer.fit()...")
     trainer.fit(model, train_loader, val_loader)
 
-    print("Training complete")
+    logger.info("Training complete. Checkpoints saved to: %s", checkpoint_dir)
 
 
 if __name__ == "__main__":
-    train()
+    try:
+        train()
+    except Exception as e:
+        logger.exception("Training process failed!")
+        raise
