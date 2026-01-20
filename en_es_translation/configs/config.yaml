@@ -1,0 +1,14 @@
+defaults:
+  - _self_
+  - model: model
+  - train: train
+  - data: data
+
+# Project paths
+paths:
+  processed_data_dir: "en_es_translation/data/processed"
+  checkpoint_dir: "en_es_translation/models/checkpoints"
+  raw_data_dir: "en_es_translation/data/raw"
+
+# Logging
+log_dir: "outputs"
