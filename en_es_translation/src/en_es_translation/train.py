@@ -4,8 +4,8 @@ from torch.utils.data import DataLoader, Subset
 from pytorch_lightning.callbacks import ModelCheckpoint
 from torch.profiler import profile, ProfilerActivity
 
-from model import Model
-from data import get_datasets
+from .model import Model
+from .data import get_datasets
 
 
 def train():

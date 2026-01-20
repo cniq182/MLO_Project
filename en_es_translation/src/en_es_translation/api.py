@@ -31,3 +31,12 @@ def translate(request: TranslationRequest) -> str:
         result = model([request.text])[0]
     
     return result
+
+
+def main():
+    import uvicorn
+    uvicorn.run("en_es_translation.api:app", host="0.0.0.0", port=8000, reload=True)
+
+
+if __name__ == "__main__":
+    main()

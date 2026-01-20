@@ -827,7 +827,7 @@ wheels = [
 [[package]]
 name = "mlo-project"
 version = "0.1.0"
-source = { virtual = "." }
+source = { editable = "." }
 dependencies = [
     { name = "datasets" },
     { name = "evaluate" },

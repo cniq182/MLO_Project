@@ -21,3 +21,14 @@ dependencies = [
 dev = [
     "cookiecutter>=2.6.0",
 ]
+
+[tool.uv]
+package = true
+
+[tool.setuptools]
+package-dir = {"" = "en_es_translation/src"}
+packages = ["en_es_translation"]
+
+[project.scripts]
+train = "en_es_translation.train:train"
+api = "en_es_translation.api:main"
