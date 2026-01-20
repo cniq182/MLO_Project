@@ -5,7 +5,7 @@ build-backend = "uv_build"
 [project]
 name = "en_es_translation"
 version = "0.0.1"
-description = "A short description of the project."
+description = "Machine translation system from English to Spanish."
 authors = [
   { name = "mlops37", email = "your@email.com" },
 ]
@@ -37,7 +37,9 @@ dev = [
     "mypy==1.19.1",
     "mkdocs-material==9.7.1",
     "mkdocstrings-python==2.0.1",
-    "pytest-cov>=6.3.0",
+    "pytest-cov>=6.3.0","pytest",
+    "pytest-cov",
+    "ruff",
 ]
 
 

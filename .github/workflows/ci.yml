@@ -33,3 +33,7 @@ jobs:
       - name: Run tests + coverage
         working-directory: en_es_translation
         run: uv run pytest --cov=en_es_translation --cov-report=term-missing
+      - name: Lint with ruff
+        working-directory: en_es_translation
+        run: uv run ruff check .
+
