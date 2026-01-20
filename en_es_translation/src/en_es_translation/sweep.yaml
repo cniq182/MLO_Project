@@ -1,0 +1,14 @@
+
+
+program: src/en_es_translation/train.py
+method: bayes
+metric:
+  name: val_loss
+  goal: minimize
+parameters:
+  lr:
+    values: [1e-4, 5e-5, 1e-5]
+  batch_size:
+    values: [16, 32]
+  epochs:
+    value: 5
