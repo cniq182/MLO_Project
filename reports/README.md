@@ -52,43 +52,43 @@ will check the repositories and the code to verify your answers.
 
 ### Week 1
 
-* [ ] Create a git repository (M5)
-* [ ] Make sure that all team members have write access to the GitHub repository (M5)
-* [ ] Create a dedicated environment for you project to keep track of your packages (M2)
-* [ ] Create the initial file structure using cookiecutter with an appropriate template (M6)
-* [ ] Fill out the `data.py` file such that it downloads whatever data you need and preprocesses it (if necessary) (M6)
-* [ ] Add a model to `model.py` and a training procedure to `train.py` and get that running (M6)
-* [ ] Remember to either fill out the `requirements.txt`/`requirements_dev.txt` files or keeping your
+* [*] Create a git repository (M5)
+* [*] Make sure that all team members have write access to the GitHub repository (M5)
+* [*] Create a dedicated environment for you project to keep track of your packages (M2)
+* [*] Create the initial file structure using cookiecutter with an appropriate template (M6)
+* [*] Fill out the `data.py` file such that it downloads whatever data you need and preprocesses it (if necessary) (M6)
+* [*] Add a model to `model.py` and a training procedure to `train.py` and get that running (M6)
+* [*] Remember to either fill out the `requirements.txt`/`requirements_dev.txt` files or keeping your
     `pyproject.toml`/`uv.lock` up-to-date with whatever dependencies that you are using (M2+M6)
-* [ ] Remember to comply with good coding practices (`pep8`) while doing the project (M7)
+* [*] Remember to comply with good coding practices (`pep8`) while doing the project (M7)
 * [ ] Do a bit of code typing and remember to document essential parts of your code (M7)
-* [ ] Setup version control for your data or part of your data (M8)
-* [ ] Add command line interfaces and project commands to your code where it makes sense (M9)
-* [ ] Construct one or multiple docker files for your code (M10)
+* [*] Setup version control for your data or part of your data (M8)
+* [*] Add command line interfaces and project commands to your code where it makes sense (M9)
+* [*] Construct one or multiple docker files for your code (M10)
 * [ ] Build the docker files locally and make sure they work as intended (M10)
-* [ ] Write one or multiple configurations files for your experiments (M11)
-* [ ] Used Hydra to load the configurations and manage your hyperparameters (M11)
-* [ ] Use profiling to optimize your code (M12)
-* [ ] Use logging to log important events in your code (M14)
-* [ ] Use Weights & Biases to log training progress and other important metrics/artifacts in your code (M14)
-* [ ] Consider running a hyperparameter optimization sweep (M14)
-* [ ] Use PyTorch-lightning (if applicable) to reduce the amount of boilerplate in your code (M15)
+* [*] Write one or multiple configurations files for your experiments (M11)
+* [*] Used Hydra to load the configurations and manage your hyperparameters (M11)
+* [*] Use profiling to optimize your code (M12)
+* [*] Use logging to log important events in your code (M14)
+* [*] Use Weights & Biases to log training progress and other important metrics/artifacts in your code (M14)
+* [*] Consider running a hyperparameter optimization sweep (M14)
+* [*] Use PyTorch-lightning (if applicable) to reduce the amount of boilerplate in your code (M15)
 
 ### Week 2
 
-* [ ] Write unit tests related to the data part of your code (M16)
-* [ ] Write unit tests related to model construction and or model training (M16)
-* [ ] Calculate the code coverage (M16)
+* [*] Write unit tests related to the data part of your code (M16)
+* [*] Write unit tests related to model construction and or model training (M16)
+* [*] Calculate the code coverage (M16)
 * [ ] Get some continuous integration running on the GitHub repository (M17)
 * [ ] Add caching and multi-os/python/pytorch testing to your continuous integration (M17)
-* [ ] Add a linting step to your continuous integration (M17)
+* [*] Add a linting step to your continuous integration (M17)
 * [ ] Add pre-commit hooks to your version control setup (M18)
 * [ ] Add a continues workflow that triggers when data changes (M19)
 * [ ] Add a continues workflow that triggers when changes to the model registry is made (M19)
 * [ ] Create a data storage in GCP Bucket for your data and link this with your data version control setup (M21)
 * [ ] Create a trigger workflow for automatically building your docker images (M21)
 * [ ] Get your model training in GCP using either the Engine or Vertex AI (M21)
-* [ ] Create a FastAPI application that can do inference using your model (M22)
+* [*] Create a FastAPI application that can do inference using your model (M22)
 * [ ] Deploy your model in GCP using either Functions or Run as the backend (M23)
 * [ ] Write API tests for your application and setup continues integration for these (M24)
 * [ ] Load test your application (M24)
@@ -121,10 +121,7 @@ will check the repositories and the code to verify your answers.
 ### Question 1
 > **Enter the group number you signed up on <learn.inside.dtu.dk>**
 >
-> Answer:
-    37
-
---- question 1 fill here ---
+> Group 37
 
 ### Question 2
 > **Enter the study number for each member in the group**
@@ -133,25 +130,13 @@ will check the repositories and the code to verify your answers.
 
     s243927, s250273, s250202,s254631,s250829
 
---- question 2 fill here ---
-
 ### Question 3
 > **Did you end up using any open-source frameworks/packages not covered in the course during your project? If so**
 > **which did you use and how did they help you complete the project?**
->
-> Recommended answer length: 0-200 words.
->
-> Example:
-> *We used the third-party framework ... in our project. We used functionality ... and functionality ... from the*
-> *package to do ... and ... in our project*.
->
-> Answer:
 
 Yes, we used several open-source tools that were not directly covered in the course.
 We mainly used the Hugging Face Transformers library, which made it easy to load and fine-tune pretrained transformer models such as T5. This allowed us to focus on adapting existing models to the translation task instead of implementing them from scratch.
 We also used the Hugging Face Datasets package to load and preprocess the OpenSubtitles dataset from OPUS. It simplified handling large amounts of parallel text data.
-
---- question 3 fill here ---
 
 ## Coding environment
 
@@ -162,12 +147,6 @@ We also used the Hugging Face Datasets package to load and preprocess the OpenSu
 
 > **Explain how you managed dependencies in your project? Explain the process a new team member would have to go**
 > **through to get an exact copy of your environment.**
->
-> Recommended answer length: 100-200 words
->
-> Example:
->
-> Answer:
 
 We managed dependencies using Python’s pyproject.toml, together with a lock file (uv.lock). All required packages and their versions are defined in these files, which ensures that everyone in the group uses the same dependencies.
 
@@ -181,16 +160,11 @@ For a new team member to get an exact copy of the development environment, the p
 5. Run the project using: (uv run main.py).
 
 Following these steps ensures that a new team member can reproduce the same environment and run the code without additional configuration.
---- question 4 fill here ---
 
 ### Question 5
 
 > **We expect that you initialized your project using the cookiecutter template. Explain the overall structure of your**
 > **code. What did you fill out? Did you deviate from the template in some way?**
->
-> Recommended answer length: 100-200 words
->
-> Answer:
 
 We initialized our project using the course-provided cookiecutter template, which gave us a standardized and organized project structure.
 
@@ -200,16 +174,11 @@ The main project code follows the structure defined by the template. The core Py
 
 We made a small deviation from the template by adding a  main.py file. This file serves as a simple entry point to run the project using uv run main.py, while the main logic remains inside the structured package under src/. Apart from this, the overall structure follows the original cookiecutter template, and no major components were removed.
 
---- question 5 fill here ---
-
 ### Question 6
 
 > **Did you implement any rules for code quality and format? What about typing and documentation? Additionally,**
 > **explain with your own words why these concepts matters in larger projects.**
 >
-> Recommended answer length: 100-200 words.
->
-> Answer:
 
 We did not use automatic tools for code formatting or linting, such as Black or Flake8. Instead, we tried to keep the code readable by following common Python style conventions and by writing clear and consistent code within the group.
 
@@ -218,7 +187,6 @@ We also did not use explicit typing or type-checking tools. Most functions were 
 For documentation, we used README files and docstrings. The README files explain the overall project structure and how to run the code, while docstrings are used in important parts of the code, such as the data loading and model logic, to describe what the functions and classes do.
 
 In larger projects, code quality and documentation are important because many people may work on the same code over time. Clear code and good documentation make it easier for others to understand, use, and change the code, and help reduce mistakes and confusion
---- question 6 fill here ---
 
 ## Version control
 
