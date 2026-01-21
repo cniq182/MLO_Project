@@ -227,15 +227,11 @@ In larger projects, code quality and documentation are important because many pe
 > **Did you workflow include using branches and pull requests? If yes, explain how. If not, explain how branches and**
 > **pull request can help improve version control.**
 >
-> Recommended answer length: 100-200 words.
->
-> Example:
-> *We made use of both branches and PRs in our project. In our group, each member had an branch that they worked on in*
-> *addition to the main branch. To merge code we ...*
->
-> Answer:
+Our workflow made extensive use of branches, allowing team members to work on different features or experiments in parallel without directly affecting the main branch. Each contributor typically developed their changes on a separate branch and ensured that their work was stable before integrating it into the main codebase. This helped reduce conflicts and made it easier to manage and test incremental changes. Naturally, some conflicts arised and we had to communicate to solve them.
 
---- question 9 fill here ---
+However, we did not rely heavily on formal pull requests. Since the team was in constant communication throughout the project, most merges were coordinated directly among team members. This allowed us to resolve potential conflicts quickly and ensured that everyone was aware of ongoing changes. 
+
+We believe the combination of frequent branching and continuous communication enabled efficient collaboration while still maintaining control over the project’s evolution.
 
 ### Question 10
 
