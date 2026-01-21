@@ -133,6 +133,14 @@ will check the repositories and the code to verify your answers.
 ### Question 3
 > **Did you end up using any open-source frameworks/packages not covered in the course during your project? If so**
 > **which did you use and how did they help you complete the project?**
+>
+> Recommended answer length: 0-200 words.
+>
+> Example:
+> *We used the third-party framework ... in our project. We used functionality ... and functionality ... from the*
+> *package to do ... and ... in our project*.
+>
+> Answer:
 
 Yes, we used several open-source tools that were not directly covered in the course.
 We mainly used the Hugging Face Transformers library, which made it easy to load and fine-tune pretrained transformer models such as T5. This allowed us to focus on adapting existing models to the translation task instead of implementing them from scratch.
@@ -147,6 +155,12 @@ We also used the Hugging Face Datasets package to load and preprocess the OpenSu
 
 > **Explain how you managed dependencies in your project? Explain the process a new team member would have to go**
 > **through to get an exact copy of your environment.**
+>
+> Recommended answer length: 100-200 words
+>
+> * Example: We used ... for managing our dependencies. The list of dependencies was auto-generated using ... . To get a complete > copy of our development environment, one would have to run the following commands
+
+Answer:
 
 We managed dependencies using Python’s pyproject.toml, together with a lock file (uv.lock). All required packages and their versions are defined in these files, which ensures that everyone in the group uses the same dependencies.
 
@@ -165,6 +179,15 @@ Following these steps ensures that a new team member can reproduce the same envi
 
 > **We expect that you initialized your project using the cookiecutter template. Explain the overall structure of your**
 > **code. What did you fill out? Did you deviate from the template in some way?**
+>
+> Recommended answer length: 100-200 words
+>
+> Example:
+> *From the cookiecutter template we have filled out the ... , ... and ... folder. We have removed the ... folder*
+> *because we did not use any ... in our project. We have added an ... folder that contains ... for running our*
+> *experiments.*
+>
+> Answer:
 
 We initialized our project using the course-provided cookiecutter template, which gave us a standardized and organized project structure.
 
@@ -179,6 +202,13 @@ We made a small deviation from the template by adding a  main.py file. This file
 > **Did you implement any rules for code quality and format? What about typing and documentation? Additionally,**
 > **explain with your own words why these concepts matters in larger projects.**
 >
+> Recommended answer length: 100-200 words.
+>
+> Example:
+> *We used ... for linting and ... for formatting. We also used ... for typing and ... for documentation. These*
+> *concepts are important in larger projects because ... . For example, typing ...*
+>
+> Answer:
 
 We did not use automatic tools for code formatting or linting, such as Black or Flake8. Instead, we tried to keep the code readable by following common Python style conventions and by writing clear and consistent code within the group.
 
@@ -205,7 +235,11 @@ In larger projects, code quality and documentation are important because many pe
 >
 > Answer:
 
---- question 7 fill here ---
+In total, we implemented 7 tests, covering both the data pipeline and the model set up. For the data part, the tests checked that the custom dataset behaves as expected and that the preprocessing step correctly creates the train, validation and test splits. Additionally, it was relevant to test that padding tokens in the labels were properly handled. We also test that preprocessing is automatically triggered when processed data is missing. For the model, the tests focus on the most critical functionality, which includes:
+- validating hyperparameters during initialization
+- ensuring the forward pass returns a list of translated strings
+- verifying that the training step produces a valid loss
+- confirming that the optimizer is correctly configured
 
 ### Question 8
 
@@ -227,6 +261,14 @@ In larger projects, code quality and documentation are important because many pe
 > **Did you workflow include using branches and pull requests? If yes, explain how. If not, explain how branches and**
 > **pull request can help improve version control.**
 >
+> Recommended answer length: 100-200 words.
+>
+> Example:
+> *We made use of both branches and PRs in our project. In our group, each member had an branch that they worked on in*
+> *addition to the main branch. To merge code we ...*
+>
+> Answer:
+
 Our workflow made extensive use of branches, allowing team members to work on different features or experiments in parallel without directly affecting the main branch. Each contributor typically developed their changes on a separate branch and ensured that their work was stable before integrating it into the main codebase. This helped reduce conflicts and made it easier to manage and test incremental changes. Naturally, some conflicts arised and we had to communicate to solve them.
 
 However, we did not rely heavily on formal pull requests. Since the team was in constant communication throughout the project, most merges were coordinated directly among team members. This allowed us to resolve potential conflicts quickly and ensured that everyone was aware of ongoing changes. 
@@ -282,7 +324,10 @@ We believe the combination of frequent branching and continuous communication en
 >
 > Answer:
 
---- question 12 fill here ---
+We configured our experiments using .yaml configuration files. We separated settings both for the data processing and training step. This allowed us to define key hyperparameters such as learning rate, batch size or number of epochs, as well as dataset-related parameters without changing the code itself. The code also established default hyperparameters in case we did not want to use a config file. We also used Hydra to load and manage these configurations, which made it easy to run different experiments or modify specific parameters through command-line overrides.
+For example, an experiment for the data processing can be run as:
+
+--> uv run en_es_translation/src/en_es_translation/data.py data=data_2
 
 ### Question 13
 
@@ -297,7 +342,9 @@ We believe the combination of frequent branching and continuous communication en
 >
 > Answer:
 
---- question 13 fill here ---
+To ensure reproducibility, we relied on configuration files we mentioned earlier to capture all relevant information for each experiment. Both data preprocessing parameters and training hyperparameters were stored in .yaml files that were version controlled, ensuring that experiment settings were explicit. Hydra handles the configuration composition at runtime, which helps prevent inconsistencies between runs.
+
+We also used logging throughout the data processing and training steps to record important execution details. When enabled, Weights & Biases was used to log configurations, metrics and checkpoints. This made tracking and comparing experiments easier, as well as providing a clearer visualization of different hyperparameter combinations. Weights & Biases will be discussed in the following question. To reproduce a specific experiment, one only needs to rerun the code using the same configuration files or command-line overrides.
 
 ### Question 14
 
