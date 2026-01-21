@@ -7,6 +7,20 @@ ENV DEBIAN_FRONTEND=noninteractive
 # Set workdir
 WORKDIR /app
 
+WORKDIR /app
+
+# Copy project metadata first (better caching)
+COPY pyproject.toml uv.lock ./
+
+# If pyproject references these, they must exist for uv to build/install the package
+COPY README.md LICENSE ./
+
+# Then code
+COPY src ./src
+
+RUN uv sync
+
+
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
     git \
