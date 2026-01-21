@@ -18,6 +18,12 @@ COPY README.md LICENSE ./
 # Then code
 COPY src ./src
 
+# Install uv (robust) + verify it exists
+RUN python -m pip install --no-cache-dir --upgrade pip \
+    && python -m pip install --no-cache-dir uv \
+    && uv --version
+
+
 RUN uv sync
 
 
