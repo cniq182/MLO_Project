@@ -205,7 +205,11 @@ In larger projects, code quality and documentation are important because many pe
 >
 > Answer:
 
---- question 7 fill here ---
+In total, we implemented 7 tests, covering both the data pipeline and the model set up. For the data part, the tests checked that the custom dataset behaves as expected and that the preprocessing step correctly creates the train, validation and test splits. Additionally, it was relevant to test that padding tokens in the labels were properly handled. We also test that preprocessing is automatically triggered when processed data is missing. For the model, the tests focus on the most critical functionality, which includes:
+- validating hyperparameters during initialization
+- ensuring the forward pass returns a list of translated strings
+- verifying that the training step produces a valid loss
+- confirming that the optimizer is correctly configured
 
 ### Question 8
 
@@ -282,7 +286,10 @@ We believe the combination of frequent branching and continuous communication en
 >
 > Answer:
 
---- question 12 fill here ---
+We configured our experiments using .yaml configuration files. We separated settings both for the data processing and training step. This allowed us to define key hyperparameters such as learning rate, batch size or number of epochs, as well as dataset-related parameters without changing the code itself. The code also established default hyperparameters in case we did not want to use a config file. We also used Hydra to load and manage these configurations, which made it easy to run different experiments or modify specific parameters through command-line overrides.
+For example, an experiment for the data processing can be run as:
+
+--> uv run en_es_translation/src/en_es_translation/data.py data=data_2
 
 ### Question 13
 
@@ -297,7 +304,9 @@ We believe the combination of frequent branching and continuous communication en
 >
 > Answer:
 
---- question 13 fill here ---
+To ensure reproducibility, we relied on configuration files we mentioned earlier to capture all relevant information for each experiment. Both data preprocessing parameters and training hyperparameters were stored in .yaml files that were version controlled, ensuring that experiment settings were explicit. Hydra handles the configuration composition at runtime, which helps prevent inconsistencies between runs.
+
+We also used logging throughout the data processing and training steps to record important execution details. When enabled, Weights & Biases was used to log configurations, metrics and checkpoints. This made tracking and comparing experiments easier, as well as providing a clearer visualization of different hyperparameter combinations. Weights & Biases will be discussed in the following question. To reproduce a specific experiment, one only needs to rerun the code using the same configuration files or command-line overrides.
 
 ### Question 14
 
