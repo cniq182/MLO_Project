@@ -30,7 +30,7 @@ dev = [
 package = true
 
 [tool.setuptools]
-package-dir = {"" = "en_es_translation/src"}
+package-dir = {"" = "src"}
 packages = ["en_es_translation"]
 
 [project.scripts]
