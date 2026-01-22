@@ -13,15 +13,15 @@ RUN python -m pip install --no-cache-dir --upgrade pip \
   && python -m pip install --no-cache-dir uv \
   && uv --version
 
-# Copy metadata first for better caching
+# Because build context is en_es_translation/, these files must be inside that folder
 COPY pyproject.toml uv.lock ./
 COPY README.md LICENSE ./
 
-# IMPORTANT: copy the path that egg_base expects
-COPY en_es_translation ./en_es_translation
+# Your code layout inside context is: src/en_es_translation/...
+COPY src ./src
 
-# (Optional but helpful) fail fast with a clear message
-RUN test -d /app/en_es_translation/src
+# Fail fast if structure is wrong
+RUN test -d /app/src/en_es_translation
 
 # Install deps
 RUN uv sync
