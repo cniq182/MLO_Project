@@ -41,7 +41,7 @@ if not _CONFIG_PATH.exists():
 def train(cfg: DictConfig):
     # --- M14: SWEEP INTEGRATION ---
     # 1. Initialize W&B. If this is a sweep, wandb.init() picks up the sweep params.
-    run = wandb.init() 
+    wandb.init() 
     
     # 2. Override Hydra config with Sweep parameters
     # This ensures that cfg.model.lr becomes the value chosen by the sweep.
