@@ -28,11 +28,13 @@ jobs:
           cache-dependency-glob: "uv.lock"
 
       - name: Install dependencies
-        run: uv sync --group dev
+        run: uv sync --group dev --no-install-project
 
       - name: Run tests + coverage
         #working-directory: en_es_translation
-        run: uv run pytest --cov=en_es_translation --cov-report=term-missing
+        run: |
+          export PYTHONPATH=$PYTHONPATH:$(pwd)/en_es_translation/src
+          uv run pytest en_es_translation --cov=en_es_translation --cov-report=term-missing
 
       - name: Lint with ruff
         #working-directory: en_es_translation
