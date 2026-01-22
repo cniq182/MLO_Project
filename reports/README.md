@@ -391,7 +391,11 @@ We also used logging throughout the data processing and training steps to record
 >
 > Answer:
 
---- question 16 fill here ---
+Debugging during the project often depended on the individual group member. The majority of the issues were identified through error messages printed in the terminal when running the data processing and training scripts. We also relied on testing, adding print statements and logging to verify shapes, data flow, and other intermediate outputs. This was especially helpful when working with the data pipeline and model inputs. Unit tests also played a role in catching errors at some stages, particularly for the dataset handling and model behavior.
+
+In addition, we occasionally used external tools such as large language models (LLMs) to help reason about errors and unexpected behaviors. LLMs were also helpful when dealing with dependency-related bugs, as none of the team members were fully familiar with that workflow or the underlying functionality. This was quite useful when debugging interactions between PyTorch, PyTorch Lightning, Hydra, Weights and Biases, etc.
+
+We do not consider the code to be perfect, and profiling was therefore also explored. We ran a profiling step using PyTorch’s built-in profiler on a single training iteration. The results showed that most of the computation time was spent in core operations such as matrix multiplications, linear layers and dropout, which we expected for transformer-based models. This confirmed that performance issues mainly came from the model architecture itself rather than inefficient code.
 
 ## Working in the cloud
 
