@@ -31,8 +31,7 @@ jobs:
         run: uv sync --group dev --no-install-project
 
       - name: Run tests + coverage
-        #working-directory: en_es_translation
-	shell: bash
+        shell: bash
         run: |
           export PYTHONPATH=$PYTHONPATH:$(pwd)/en_es_translation/src
           uv run pytest en_es_translation --cov=en_es_translation --cov-report=term-missing
