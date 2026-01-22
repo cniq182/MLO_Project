@@ -1,48 +1,29 @@
-# Base image with Python 3.10
 FROM python:3.10-slim
 
-# Avoid interactive prompts
 ENV DEBIAN_FRONTEND=noninteractive
-
-# Set workdir
 WORKDIR /app
 
-WORKDIR /app
-
-# Copy project metadata first (better caching)
-COPY pyproject.toml uv.lock ./
-
-# If pyproject references these, they must exist for uv to build/install the package
-COPY README.md LICENSE ./
-
-# Then code
-COPY src ./src
-
-# Install uv (robust) + verify it exists
-RUN python -m pip install --no-cache-dir --upgrade pip \
-    && python -m pip install --no-cache-dir uv \
-    && uv --version
-
-
-RUN uv sync
-
-
-# Install system dependencies
-RUN apt-get update && apt-get install -y \
+# System deps (install once)
+RUN apt-get update && apt-get install -y --no-install-recommends \
     git \
-    && rm -rf /var/lib/apt/lists/*
+  && rm -rf /var/lib/apt/lists/*
 
-# Install uv
-RUN pip install uv
+# Install uv once
+RUN python -m pip install --no-cache-dir --upgrade pip \
+  && python -m pip install --no-cache-dir uv \
+  && uv --version
 
-# Copy project files
+# Copy metadata first for better caching
 COPY pyproject.toml uv.lock ./
 COPY README.md LICENSE ./
 
-COPY src ./src
+# IMPORTANT: copy the path that egg_base expects
+COPY en_es_translation ./en_es_translation
 
-# Sync dependencies
+# (Optional but helpful) fail fast with a clear message
+RUN test -d /app/en_es_translation/src
+
+# Install deps
 RUN uv sync
 
-# Default command (can be overridden)
 CMD ["uv", "run", "python", "-m", "en_es_translation.predict"]
