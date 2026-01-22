@@ -4,27 +4,28 @@ on:
   push:
     branches: [ main, feature/** ]
   pull_request:
-
+    branches: [ main, feature/** ]
+ 
 jobs:
   tests:
+    name: Test on ${{ matrix.os }} with Python ${{ matrix.python-version }}
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, windows-latest]
-        python-version: ["3.10"]
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        python-version: ["3.10","3.11","3.12", "3.13"]
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Set up Python
+      - name: Install uv and set up Python
         uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
-
-      - name: Install uv
-        run: pip install uv
+          enable-cache:true
+	  cache-dependency-glob: "uv.lock"
 
       - name: Install dependencies
         run: uv sync --group dev
@@ -32,6 +33,7 @@ jobs:
       - name: Run tests + coverage
         working-directory: en_es_translation
         run: uv run pytest --cov=en_es_translation --cov-report=term-missing
+
       - name: Lint with ruff
         working-directory: en_es_translation
         run: uv run ruff check .
