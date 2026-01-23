@@ -54,24 +54,28 @@ def client_with_model(mock_model, mock_device):
 
 
 @pytest.fixture
-def client():
+def client(mock_model, mock_device):
     """Create a test client without model (for error scenarios)."""
-    from en_es_translation.api import app
-    
-    # Save original state
-    original_model = getattr(app.state, "model", None)
-    original_device = getattr(app.state, "device", None)
-    
-    # Create client - lifespan will load model, but we'll override it
-    with TestClient(app) as test_client:
-        # Override to None to simulate model not loaded
-        app.state.model = None
-        app.state.device = None
-        yield test_client
-    
-    # Restore original state
-    app.state.model = original_model
-    app.state.device = original_device
+    # Patch load_model before importing/creating the app to prevent lifespan failure
+    with patch("en_es_translation.api.load_model") as mock_load_model:
+        mock_load_model.return_value = (mock_model, mock_device)
+        
+        from en_es_translation.api import app
+        
+        # Save original state
+        original_model = getattr(app.state, "model", None)
+        original_device = getattr(app.state, "device", None)
+        
+        # Create client - lifespan will use mocked load_model
+        with TestClient(app) as test_client:
+            # Override to None to simulate model not loaded
+            app.state.model = None
+            app.state.device = None
+            yield test_client
+        
+        # Restore original state
+        app.state.model = original_model
+        app.state.device = original_device
 
 
 class TestSuccessfulTranslation:
