@@ -239,7 +239,7 @@ In total, we implemented 7 tests, covering both the data pipeline and the model 
 > Recommended answer length: 100-200 words.
 >
 > Example:
-> *The total code coverage of code is X%, which includes all our source code. We are far from 100% coverage of our **
+> The total code coverage of code is X%, which includes all our source code. We are far from 100% coverage of our **
 > *code and even if we were then...*
 >
 > Answer:
@@ -392,17 +392,7 @@ In addition, we occasionally used external tools such as large language models (
 
 We do not consider the code to be perfect, and profiling was therefore also explored. We ran a profiling step using PyTorch’s built-in profiler on a single training iteration. The results showed that most of the computation time was spent in core operations such as matrix multiplications, linear layers and dropout, which we expected for transformer-based models. This confirmed that performance issues mainly came from the model architecture itself rather than inefficient code.
 
-Results:
-            aten::dropout         0.17%       5.661ms        44.17%        1.507s      23.542ms            64
-             aten::matmul         0.24%       8.286ms        39.27%        1.340s      10.072ms           133
-         aten::bernoulli_        38.05%        1.298s        38.05%        1.298s      20.281ms            64
-             aten::linear         0.04%       1.453ms        34.87%        1.189s      12.261ms            97
-                 aten::mm        34.47%        1.176s        34.47%        1.176s      12.122ms            97
-                aten::mul         7.35%     250.713ms         7.35%     250.791ms       1.872ms           134
-                aten::bmm         3.08%     104.935ms         3.08%     105.035ms       2.918ms            36
- aten::cross_entropy_loss         0.07%       2.460ms         3.03%     103.379ms     103.379ms             1
-        aten::log_softmax         0.03%     987.416us         2.89%      98.668ms      98.668ms             1
-       aten::_log_softmax         2.86%      97.678ms         2.86%      97.678ms      97.678ms             1
+![my_image](figures/profiling.png)
 
 ## Working in the cloud
 
