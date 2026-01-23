@@ -367,15 +367,12 @@ The images illustrate how we used Weights & Biases to track and compare these ex
 > Recommended answer length: 100-200 words.
 > Example: For our project we developed several images: one for training, inference and deployment. For example to run the training docker image: docker run trainer:latest lr=1e-3 batch_size=64. Link to docker file:
 > Answer:
-## Docker
 
-In the project we used **Docker** to ensure a **reproducible and consistent execution environment**, avoiding dependency issues across different machines and operating systems. The **EN→ES translation inference pipeline** was containerized, including automatic dependency installation using `uv`, the project source code, and the required configuration files. This makes the application easy to run, test, and deploy in an isolated environment.
+In the project we used Docker to ensure a reproducible and consistent execution environment, avoiding dependency issues across different machines and operating systems. The EN→ES translation inference pipeline** was containerized, including automatic dependency installation using `uv`, the project source code, and the required configuration files. This makes the application easy to run, test, and deploy in an isolated environment.
 
 To build the Docker image locally from the repository:
 
-```bash
 docker build -t en-es-translation:latest -f en_es_translation/Dockerfile en_es_translation
-```
 
 ### Question 16
 
@@ -506,8 +503,6 @@ When a request is received, the API runs the model in inference mode using torch
 
 FastAPI’s built-in documentation (/docs) can be used to test the API and send requests to the model.
 
---- question 23 fill here ---
-
 ### Question 24
 
 > **Did you manage to deploy your API, either in locally or cloud? If not, describe why. If yes, describe how and**
@@ -536,7 +531,6 @@ Additionally, the API provides interactive documentation via FastAPI’s Swagger
 Cloud deployement:
 The API was not deployed to a cloud platform. Local deployment was sufficient for development, testing, and demonstration purposes within the scope of this project, and allowed us to focus on model training, evaluation, and pipeline correctness.
 
---- question 24 fill here ---
 
 ### Question 25
 
@@ -553,8 +547,6 @@ For unit testing, we wrote tests using pytest to verify parts of the project suc
 For load testing, we tested the deployed local API by sending multiple requests to the /translate endpoint in a short period of time using a shell script based on curl. In one test, 50 requests were sent sequentially to the API. The total execution time was approximately 8 seconds, resulting. On another test there were 1000 requests sent to the API with the total exuction time approx 156 seconds. This showed that the API was able to handle repeated requests without crashing and with stable response times under light load.
 
 ![my_image](figures/requests.png)
-
---- question 25 fill here ---
 
 ### Question 26
 
@@ -574,8 +566,6 @@ Monitoring could also help identify changes in the input data, such as users sen
 
 In addition, monitoring resource usage such as CPU and memory would help prevent performance issues and ensure the service remains stable as usage increases.
 
---- question 26 fill here ---
-
 ## Overall discussion of project
 
 > In the following section we would like you to think about the general structure of your project.
@@ -592,8 +582,6 @@ In addition, monitoring resource usage such as CPU and memory would help prevent
 > *costing the most was ... due to ... . Working in the cloud was ...*
 >
 > Answer:
-
---- question 27 fill here ---
 
 ### Question 28
 
