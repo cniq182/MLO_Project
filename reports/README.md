@@ -387,7 +387,7 @@ To build the Docker image locally from the repository:
 
 ```bash
 docker build -t en-es-translation:latest -f en_es_translation/Dockerfile en_es_translation
-´´´
+```
 
 ### Question 16
 
