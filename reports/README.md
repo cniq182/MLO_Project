@@ -606,14 +606,21 @@ In addition, monitoring resource usage such as CPU and memory would help prevent
 >
 > Recommended answer length: 200-400 words
 >
-> Example:
->
-> *The starting point of the diagram is our local setup, where we integrated ... and ... and ... into our code.*
-> *Whenever we commit code and push to GitHub, it auto triggers ... and ... . From there the diagram shows ...*
->
 > Answer:
 
---- question 29 fill here ---
+![my_image](figures/Architecture.png)
+
+The figure shows the overall architecture of our system and the main steps in the workflow, from development to user interaction. The goal of this architecture is to make sure the  code quality, reproducibility, and a reliable way to run the application.
+
+The process starts on the developer’s local machine, where the code and machine learning components are developed. During development, the developer writes code, tests functionality, and runs automated code quality checks using Ruff. These checks makes sure that the code follows consistent formatting rules and avoids common errors before it is shared with others.
+
+Once the changes are ready, the code is committed and pushed to GitHub, where it is stored in a central repository. Pushing new code automatically triggers a GitHub Actions continuous integration (CI) pipeline. This pipeline runs a series of automated steps, including unit tests and linting with Ruff. These checks make sure that the code is correct, readable, and stable before it is built or used further.
+
+If all CI checks pass, the system builds a Docker image. The Docker image contains the full application, including the model and all required dependencies. Using Docker ensures that the application behaves the same way across different environments and machines.
+
+The Docker image is then used to run the application or API, which handles incoming requests and executes the model logic. Finally, the user interacts with the system by sending requests to the application and receiving responses, such as predictions or results.
+
+This architecture is well suited for larger projects because it separates development, testing, and usage clearly. Automated testing and linting reduce errors, Docker improves reproducibility, and GitHub Actions enables fast feedback. 
 
 ### Question 30
 
