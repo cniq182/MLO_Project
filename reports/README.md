@@ -416,7 +416,11 @@ Results:
 >
 > Answer:
 
---- question 17 fill here ---
+In our project, we used the following Google Cloud Platform services: 
+The Cloud Storage (Buckets): This service was used as our primary storage solution to hold the dataset, as as to store the versioned model artifacts and outputs from our DVC. 
+Compute Engine: This service allowed us to provide high-performance Virtual Machines(VMs) equipped with GPUs, which prvoied the necesary computational power to train our Transformer models. 
+Container Registry: We used this to manage and store our Docker container images.
+Vertex AI: We leveraged Vertex AI to streamline our machine learning workflow. 
 
 ### Question 18
 
