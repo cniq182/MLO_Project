@@ -80,12 +80,12 @@ will check the repositories and the code to verify your answers.
 * [*] Write unit tests related to model construction and or model training (M16)
 * [*] Calculate the code coverage (M16)
 * [ ] Get some continuous integration running on the GitHub repository (M17)
-* [ ] Add caching and multi-os/python/pytorch testing to your continuous integration (M17)
+* [*] Add caching and multi-os/python/pytorch testing to your continuous integration (M17)
 * [*] Add a linting step to your continuous integration (M17)
 * [ ] Add pre-commit hooks to your version control setup (M18)
 * [ ] Add a continues workflow that triggers when data changes (M19)
 * [ ] Add a continues workflow that triggers when changes to the model registry is made (M19)
-* [ ] Create a data storage in GCP Bucket for your data and link this with your data version control setup (M21)
+* [*] Create a data storage in GCP Bucket for your data and link this with your data version control setup (M21)
 * [ ] Create a trigger workflow for automatically building your docker images (M21)
 * [ ] Get your model training in GCP using either the Engine or Vertex AI (M21)
 * [*] Create a FastAPI application that can do inference using your model (M22)
@@ -275,7 +275,7 @@ We believe the combination of frequent branching and continuous communication en
 >
 > Answer:
 
---- question 10 fill here ---
+Yes, we utilized DVC to manage our project's datasets. We configured DVC to track our large data files and stored the actual content in remote storage, committing only the lightweight .dvc  files to GitHub. It kept our Git repository light and clean, preventing the bloat and errors. Additionally, having it in the DVC ensures full experiment reproducibility. By linking specific data versions to Git commits, we can travel back in time to any previous model version and immediately retrieve the exact data used for that specific training run. This eliminates ambiguity and allows the team to collaborate without manually transferring large dataset files.
 
 ### Question 11
 
