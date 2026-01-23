@@ -593,7 +593,8 @@ In addition, monitoring resource usage such as CPU and memory would help prevent
 >
 > Answer:
 
---- question 27 fill here ---
+ Two members used GCP, one of us used $1.15 in credits, while the other one used $5.81, resulting in a total of approximately $6.96 spent during development. The service costing the most was the Virtual Machine in Compute Engine due to the computational resources required for training and running experiments.
+Working in the cloud proved to be a valuable experience overall. The pay-as-you-go model allowed us to scale resources dynamically based on our needs, which was particularly useful during intensive training phases. The ability to spin up powerful VMs on demand without investing in local hardware was convenient, though it required careful monitoring to avoid unexpected costs. Cloud services also facilitated collaboration, as team members could access shared resources and results from anywhere.
 
 ### Question 28
 
