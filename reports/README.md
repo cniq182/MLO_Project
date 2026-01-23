@@ -157,8 +157,6 @@ We also used the Hugging Face Datasets package to load and preprocess the OpenSu
 > **through to get an exact copy of your environment.**
 >
 > Recommended answer length: 100-200 words
->
-> * Example: We used ... for managing our dependencies. The list of dependencies was auto-generated using ... . To get a complete > copy of our development environment, one would have to run the following commands
 
 Answer:
 
@@ -181,12 +179,6 @@ Following these steps ensures that a new team member can reproduce the same envi
 > **code. What did you fill out? Did you deviate from the template in some way?**
 >
 > Recommended answer length: 100-200 words
->
-> Example:
-> *From the cookiecutter template we have filled out the ... , ... and ... folder. We have removed the ... folder*
-> *because we did not use any ... in our project. We have added an ... folder that contains ... for running our*
-> *experiments.*
->
 > Answer:
 
 We initialized our project using the course-provided cookiecutter template, which gave us a standardized and organized project structure.
@@ -204,20 +196,17 @@ We made a small deviation from the template by adding a  main.py file. This file
 >
 > Recommended answer length: 100-200 words.
 >
-> Example:
-> *We used ... for linting and ... for formatting. We also used ... for typing and ... for documentation. These*
-> *concepts are important in larger projects because ... . For example, typing ...*
->
 > Answer:
 
-We did not use automatic tools for code formatting or linting, such as Black or Flake8. Instead, we tried to keep the code readable by following common Python style conventions and by writing clear and consistent code within the group.
+Yes, we implemented rules for code quality and formatting in the project.
+We used Ruff to automatically check the code for style issues and common mistakes, and to fix them when possible. This helped keep the code clean and consistent across the whole project.
 
-We also did not use explicit typing or type-checking tools. Most functions were written without type hints, as the main focus of the project was on implementing and testing the machine translation pipeline rather than enforcing strict type rules.
+We also used type hints in important parts of the code so it is clear what kind of data functions expect and return. This makes the code easier to understand and helps catch errors early.
 
 For documentation, we used README files and docstrings. The README files explain the overall project structure and how to run the code, while docstrings are used in important parts of the code, such as the data loading and model logic, to describe what the functions and classes do.
 
-In larger projects, code quality and documentation are important because many people may work on the same code over time. Clear code and good documentation make it easier for others to understand, use, and change the code, and help reduce mistakes and confusion
-
+In larger projects, code quality and documentation are important because many people may work on the same code over time. Clear code and good documentation make it easier for others to understand, use, and change the code, and help reduce mistakes and confusion.
+![image](files/reports/figures/ruff.png)
 ## Version control
 
 > In the following section we are interested in how version control was used in your project during development to
