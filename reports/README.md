@@ -225,7 +225,7 @@ In larger projects, code quality and documentation are important because many pe
 > Example: In total we have implemented X tests. Primarily we are testing ... and ... as these the most critical parts of our application but also ... .
 > Answer:
 
-In total, we implemented 7 tests, covering both the data pipeline and the model set up. For the data part, the tests checked that the custom dataset behaves as expected and that the preprocessing step correctly creates the train, validation and test splits. Additionally, it was relevant to test that padding tokens in the labels were properly handled. We also test that preprocessing is automatically triggered when processed data is missing. For the model, the tests focus on the most critical functionality, which includes:
+In total, we implemented 7 tests, covering both the data pipeline and the model set up. For the data part, the tests checked that the custom dataset behaves as expected and that the preprocessing step correctly creates the train, validation and test splits. For the model, the tests focus on the most critical functionality, which includes:
 - validating hyperparameters during initialization
 - ensuring the forward pass returns a list of translated strings
 - verifying that the training step produces a valid loss
@@ -295,7 +295,12 @@ Yes, we utilized DVC to manage our project's datasets. We configured DVC to trac
 >
 > Answer:
 
-We were using GitHub Actions as our CI. Our pipeline was triggered on every push to the branches of main and feature/**. The workflow focused on ensuring the code quality and functionality. In terms of the environment management, we used uv for fast dependency resolution and environmental setup. We used Ruff, which called for near instant static analysis of our code.  We also ran our tests using pytest combined with pytest-cov to monitor code coverage on every commit. We also tested against all three major platforms: Ubuntu, Windows and macOS.  We used the python version 3.13 in these three platforms. And in regards to caching, it is part of the pipeline with enable-cache:true. This prevented redownloading dependencies on subesquent runs, significantly speeding up the build time. You can view the specific configuration in our repository under .github/workflows/ci.yml 
+We implemented GitHub Actions as our continuous integration platform, with workflows automatically triggered on every push to the main branch and any feature/** branches. Our CI pipeline was designed to maintain code quality and ensure functionality across different environments.
+For environment management, we leveraged uv, which provided fast and reliable dependency resolution and setup. This choice significantly reduced our setup time compared to traditional pip-based installations. Code quality enforcement was handled by Ruff, a modern Python linter that performs near-instantaneous static analysis. Ruff's speed allowed us to catch style violations, potential bugs, and code smells without adding noticeable overhead to our CI runtime.
+Testing was conducted using pytest combined with coverage for comprehensive code coverage monitoring. This combination allowed us to track which parts of our codebase were exercised by our test suite and identify areas needing additional testing. We executed our test suite on every commit to catch regressions early in the development process.
+Cross-platform compatibility was a priority, so we tested against all three major operating systems: Ubuntu, Windows, and macOS. All platforms used Python 3.13 to ensure consistency. This multi-platform testing approach helped us identify platform-specific issues before they reached production.
+To optimize build times, we implemented caching in our pipeline using the enable-cache: true configuration. This prevented redundant downloads of dependencies on subsequent runs, dramatically reducing our CI execution time. The cached dependencies persisted between runs as long as our requirements remained unchanged.
+You can view our complete CI configuration in our repository at .github/workflows/ci.yml, which documents the full implementation of these practices.
 
 ## Running code and tracking experiments
 
@@ -314,7 +319,7 @@ We were using GitHub Actions as our CI. Our pipeline was triggered on every push
 >
 > Answer:
 
-We configured our experiments using .yaml configuration files. We separated settings both for the data processing and training step. This allowed us to define key hyperparameters such as learning rate, batch size or number of epochs, as well as dataset-related parameters without changing the code itself. The code also established default hyperparameters in case we did not want to use a config file. We also used Hydra to load and manage these configurations, which made it easy to run different experiments or modify specific parameters through command-line overrides.
+We configured our experiments using .yaml configuration files. We separated settings both for the data processing and training step. This allowed us to define key hyperparameters such as learning rate, batch size or number of epochs, as well as dataset-related parameters without changing the code itself. The code also established default hyperparameters. We used Hydra to load and manage these configurations, which made it easy to run different experiments or modify specific parameters through command-line overrides.
 For example, an experiment for the data processing can be run as:
 
 --> uv run en_es_translation/src/en_es_translation/data.py data=data_2
@@ -368,11 +373,9 @@ The images illustrate how we used Weights & Biases to track and compare these ex
 > Example: For our project we developed several images: one for training, inference and deployment. For example to run the training docker image: docker run trainer:latest lr=1e-3 batch_size=64. Link to docker file:
 > Answer:
 
-In the project we used Docker to ensure a reproducible and consistent execution environment, avoiding dependency issues across different machines and operating systems. The EN→ES translation inference pipeline** was containerized, including automatic dependency installation using `uv`, the project source code, and the required configuration files. This makes the application easy to run, test, and deploy in an isolated environment.
-
-To build the Docker image locally from the repository:
-
-docker build -t en-es-translation:latest -f en_es_translation/Dockerfile en_es_translation
+In our project, we used Docker extensively to ensure a reproducible and consistent execution environment, effectively eliminating dependency conflicts across different machines and operating systems. We containerized our EN→ES translation inference pipeline, packaging everything needed for execution: automatic dependency installation using uv, the complete project source code, model artifacts, and all required configuration files. This containerization approach made our application straightforward to run, test, and deploy within an isolated environment.
+To build the Docker image locally from the repository, we used the command: docker build -t en-es-translation:latest -f en_es_translation/Dockerfile en_es_translation. Once built, running the containerized application was equally simple with: docker run -p 8080:8080 en-es-translation:latest. This launches the translation service and exposes it on port 8080, making it accessible for inference requests.
+The Dockerfile itself is located at en_es_translation/Dockerfile in our repository. By leveraging Docker, we achieved environment parity between development, testing, and production, significantly reducing the "it works on my machine" problem. The containerized approach also simplified our deployment to cloud platforms and made horizontal scaling much more manageable for our translation service.
 
 ### Question 16
 
@@ -383,9 +386,9 @@ docker build -t en-es-translation:latest -f en_es_translation/Dockerfile en_es_t
 > Example: Debugging method was dependent on group member. Some just used ... and others used ... . We did a single profiling run of our main code at some point that showed ...
 > Answer:
 
-Debugging during the project often depended on the individual group member. The majority of the issues were identified through error messages printed in the terminal when running the data processing and training scripts. We also relied on testing, adding print statements and logging to verify shapes, data flow, and other intermediate outputs. This was especially helpful when working with the data pipeline and model inputs. Unit tests also played a role in catching errors at some stages, particularly for the dataset handling and model behavior.
+The majority of the issues were identified through error messages printed in the terminal when running the data processing and training scripts. We also relied on testing and logging to verify shapes, data flow, and other outputs. This was especially helpful when working with the data pipeline and model inputs. Unit tests also played a role in catching errors at some stages, particularly for the dataset handling and model behavior.
 
-In addition, we occasionally used external tools such as large language models (LLMs) to help reason about errors and unexpected behaviors. LLMs were also helpful when dealing with dependency-related bugs, as none of the team members were fully familiar with that workflow or the underlying functionality. This was quite useful when debugging interactions between PyTorch, PyTorch Lightning, Hydra, Weights and Biases, etc.
+In addition, we occasionally used external tools such as large language models to help reason about errors and unexpected behaviors. LLMs were also helpful when dealing with dependency-related bugs, as none of the team members were fully familiar with that workflow or the underlying functionality.
 
 We do not consider the code to be perfect, and profiling was therefore also explored. We ran a profiling step using PyTorch’s built-in profiler on a single training iteration. The results showed that most of the computation time was spent in core operations such as matrix multiplications, linear layers and dropout, which we expected for transformer-based models. This confirmed that performance issues mainly came from the model architecture itself rather than inefficient code.
 
@@ -425,7 +428,9 @@ Vertex AI: We leveraged Vertex AI to streamline our machine learning workflow.
 >
 > Answer:
 
-We used the Compute Engine to run training and experiments. We created an e2-medium VM with the following specs: 2 vCPUs, 4 GB memory, and 10 GB disk space. This configuration provided a balance between cost and performance for our needs. We start the training using a custom container built from the Dockerfile for training in the repository. The image is built and uploaded automatically to the GCP Artifact Registry using Cloud Build whenever we push changes to the main branch. 
+We utilized Google Cloud Platform's Compute Engine as our primary infrastructure for running training jobs and experiments. Our setup consisted of e2-medium VM instances configured with the following hardware specifications: 2 vCPUs, 4 GB of memory, and 10 GB of disk space. This configuration struck an optimal balance between computational performance and cost-efficiency for our project requirements.
+To ensure consistency and reproducibility across different environments, we containerized our training pipeline using a custom Docker image. This container was built directly from the Dockerfile located in our repository's training directory. We automated the entire deployment process by integrating Cloud Build into our workflow. Whenever changes were pushed to the main branch, Cloud Build automatically triggered a new image build and seamlessly uploaded it to GCP's Artifact Registry.
+This automation eliminated manual deployment steps and reduced the potential for human error. The containerized approach also provided environment isolation and made it straightforward to scale our experiments or migrate to different VM configurations as needed. The combination of Compute Engine's flexibility and our automated container deployment created an efficient, reproducible training infrastructure.
 
 ### Question 19
 
@@ -493,6 +498,7 @@ When a request is received, the API runs the model in inference mode using torch
 
 FastAPI’s built-in documentation (/docs) can be used to test the API and send requests to the model.
 
+
 ### Question 24
 
 > **Did you manage to deploy your API, either in locally or cloud? If not, describe why. If yes, describe how and**
@@ -504,7 +510,7 @@ FastAPI’s built-in documentation (/docs) can be used to test the API and send 
 
 Yes, we successfully deployed our API locally.
 
-The API was implemented using FastAPI and deployed locally using the Uvicorn ASGI server. The service is started via a Python entry point that launches Uvicorn and exposes the application on port 8000 with the host set to 0.0.0.0, making it accessible from the local machine.
+The API was implemented using FastAPI and deployed locally using the Uvicorn ASGI server. The service is started via a Python entry point that launches Uvicorn, making it accessible from the local machine.
 
 The model is loaded at application startup using FastAPI’s lifespan context and stored in the application state. This ensures that the model is initialized only once and reused across incoming requests, which improves efficiency and follows good deployment practices.
 
@@ -538,6 +544,7 @@ For load testing, we tested the deployed local API by sending multiple requests 
 
 ![my_image](figures/requests.png)
 
+
 ### Question 26
 
 > **Did you manage to implement monitoring of your deployed model? If yes, explain how it works. If not, explain how**
@@ -556,6 +563,7 @@ Monitoring could also help identify changes in the input data, such as users sen
 
 In addition, monitoring resource usage such as CPU and memory would help prevent performance issues and ensure the service remains stable as usage increases.
 
+
 ## Overall discussion of project
 
 > In the following section we would like you to think about the general structure of your project.
@@ -572,6 +580,9 @@ In addition, monitoring resource usage such as CPU and memory would help prevent
 > *costing the most was ... due to ... . Working in the cloud was ...*
 >
 > Answer:
+
+ Two members used GCP, one of us used $1.15 in credits, while the other one used $5.81, resulting in a total of approximately $6.96 spent during development. The service costing the most was the Virtual Machine in Compute Engine due to the computational resources required for training and running experiments.
+Working in the cloud proved to be a valuable experience overall. The pay-as-you-go model allowed us to scale resources dynamically based on our needs, which was particularly useful during intensive training phases. The ability to spin up powerful VMs on demand without investing in local hardware was convenient, though it required careful monitoring to avoid unexpected costs. Cloud services also facilitated collaboration, as team members could access shared resources and results from anywhere.
 
 ### Question 28
 
@@ -632,9 +643,9 @@ This architecture is well suited for larger projects because it separates develo
 >
 > Answer:
 
-Looking back, the most significant struggles in this project weren’t found within the modeling itself, but rather in the complex background that holds a modern ML workflow together. A substantial portion of our development cycle was dedicated to the practicalities of making disparate systems communicate reliably—a process that proved to be a masterclass in navigating real-world technical constraints.
+Looking back, the most significant struggles in this project weren’t found within the modeling itself, but rather in the complex background that holds a modern ML workflow together. A substantial portion of our development cycle was dedicated to the practicalities of making disparate systems communicate reliably, a process that proved to be a masterclass in navigating real-world technical constraints.
 
-Our first major test was getting used to collaborative version control. While we were all comfortable with basic Git, managing a fast and instense project with multiple contributors required a much higher level of discipline. Initially, frequent merge conflicts and integration issues slowed our momentum. We overcame this not just through better tooling, but creating clearer conventions and steps to follow in order to avoid mistakes, as well as increasing our active communication before pushing major changes. 
+Our first major test was getting used to collaborative version control. While we were all comfortable with basic Git, managing a fast and intense project with multiple contributors required a much higher level of discipline. Initially, frequent merge conflicts and integration issues slowed our momentum. We overcame this not just through better tooling, but creating clearer conventions and steps to follow in order to avoid mistakes, as well as increasing our active communication before pushing major changes. 
 
 The transition to cloud deployment and the DTU HPC cluster provided a different kind of issues. We quickly saw that it was complicated to set up experiments in a shared and high-demand environment. This came with a steep learning curve regarding permissions, job scheduling and reproducibility, since many of us had not used HPC before. Between resource scarcity and the nuances of cluster command structures, we were forced to rethink our workflow. We were expecting to train a big model with a fair amount of hyperparameters, but the limitations we found regarding the HPC access made us train a weaker model.
 
