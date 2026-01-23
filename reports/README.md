@@ -79,21 +79,21 @@ will check the repositories and the code to verify your answers.
 * [*] Write unit tests related to the data part of your code (M16)
 * [*] Write unit tests related to model construction and or model training (M16)
 * [*] Calculate the code coverage (M16)
-* [ ] Get some continuous integration running on the GitHub repository (M17)
-* [ ] Add caching and multi-os/python/pytorch testing to your continuous integration (M17)
+* [*] Get some continuous integration running on the GitHub repository (M17)
+* [*] Add caching and multi-os/python/pytorch testing to your continuous integration (M17)
 * [*] Add a linting step to your continuous integration (M17)
 * [ ] Add pre-commit hooks to your version control setup (M18)
 * [ ] Add a continues workflow that triggers when data changes (M19)
 * [ ] Add a continues workflow that triggers when changes to the model registry is made (M19)
-* [ ] Create a data storage in GCP Bucket for your data and link this with your data version control setup (M21)
-* [ ] Create a trigger workflow for automatically building your docker images (M21)
+* [*] Create a data storage in GCP Bucket for your data and link this with your data version control setup (M21)
+* [*] Create a trigger workflow for automatically building your docker images (M21)
 * [ ] Get your model training in GCP using either the Engine or Vertex AI (M21)
 * [*] Create a FastAPI application that can do inference using your model (M22)
 * [ ] Deploy your model in GCP using either Functions or Run as the backend (M23)
-* [ ] Write API tests for your application and setup continues integration for these (M24)
-* [ ] Load test your application (M24)
+* [*] Write API tests for your application and setup continues integration for these (M24)
+* [*] Load test your application (M24)
 * [ ] Create a more specialized ML-deployment API using either ONNX or BentoML, or both (M25)
-* [ ] Create a frontend for your API (M26)
+* [*] Create a frontend for your API (M26)
 
 ### Week 3
 
@@ -159,8 +159,6 @@ We also used the Hugging Face Datasets package to load and preprocess the OpenSu
 > **through to get an exact copy of your environment.**
 >
 > Recommended answer length: 100-200 words
->
-> * Example: We used ... for managing our dependencies. The list of dependencies was auto-generated using ... . To get a complete > copy of our development environment, one would have to run the following commands
 
 Answer:
 
@@ -183,12 +181,6 @@ Following these steps ensures that a new team member can reproduce the same envi
 > **code. What did you fill out? Did you deviate from the template in some way?**
 >
 > Recommended answer length: 100-200 words
->
-> Example:
-> *From the cookiecutter template we have filled out the ... , ... and ... folder. We have removed the ... folder*
-> *because we did not use any ... in our project. We have added an ... folder that contains ... for running our*
-> *experiments.*
->
 > Answer:
 
 We initialized our project using the course-provided cookiecutter template, which gave us a standardized and organized project structure.
@@ -206,20 +198,17 @@ We made a small deviation from the template by adding a  main.py file. This file
 >
 > Recommended answer length: 100-200 words.
 >
-> Example:
-> *We used ... for linting and ... for formatting. We also used ... for typing and ... for documentation. These*
-> *concepts are important in larger projects because ... . For example, typing ...*
->
 > Answer:
 
-We did not use automatic tools for code formatting or linting, such as Black or Flake8. Instead, we tried to keep the code readable by following common Python style conventions and by writing clear and consistent code within the group.
+Yes, we implemented rules for code quality and formatting in the project.
+We used Ruff to automatically check the code for style issues and common mistakes, and to fix them when possible. This helped keep the code clean and consistent across the whole project.
 
-We also did not use explicit typing or type-checking tools. Most functions were written without type hints, as the main focus of the project was on implementing and testing the machine translation pipeline rather than enforcing strict type rules.
+We also used type hints in important parts of the code so it is clear what kind of data functions expect and return. This makes the code easier to understand and helps catch errors early.
 
 For documentation, we used README files and docstrings. The README files explain the overall project structure and how to run the code, while docstrings are used in important parts of the code, such as the data loading and model logic, to describe what the functions and classes do.
 
-In larger projects, code quality and documentation are important because many people may work on the same code over time. Clear code and good documentation make it easier for others to understand, use, and change the code, and help reduce mistakes and confusion
-
+In larger projects, code quality and documentation are important because many people may work on the same code over time. Clear code and good documentation make it easier for others to understand, use, and change the code, and help reduce mistakes and confusion.
+![my_image](figures/ruff.png)
 ## Version control
 
 > In the following section we are interested in how version control was used in your project during development to
@@ -286,7 +275,7 @@ We believe the combination of frequent branching and continuous communication en
 >
 > Answer:
 
---- question 10 fill here ---
+Yes, we utilized DVC to manage our project's datasets. We configured DVC to track our large data files and stored the actual content in remote storage, committing only the lightweight .dvc  files to GitHub. It kept our Git repository light and clean, preventing the bloat and errors. Additionally, having it in the DVC ensures full experiment reproducibility. By linking specific data versions to Git commits, we can travel back in time to any previous model version and immediately retrieve the exact data used for that specific training run. This eliminates ambiguity and allows the team to collaborate without manually transferring large dataset files.
 
 ### Question 11
 
@@ -374,10 +363,6 @@ The images illustrate how we used Weights & Biases to track and compare these ex
 >
 > Recommended answer length: 100-200 words.
 >
-> Example:
-> *For our project we developed several images: one for training, inference and deployment. For example to run the*
-> *training docker image: `docker run trainer:latest lr=1e-3 batch_size=64`. Link to docker file: <weblink>*
->
 > Answer:
 ## Docker
 
@@ -396,8 +381,6 @@ docker build -t en-es-translation:latest -f en_es_translation/Dockerfile en_es_t
 >
 > Recommended answer length: 100-200 words.
 >
-> Example:
->
 > Answer:
 
 Debugging during the project often depended on the individual group member. The majority of the issues were identified through error messages printed in the terminal when running the data processing and training scripts. We also relied on testing, adding print statements and logging to verify shapes, data flow, and other intermediate outputs. This was especially helpful when working with the data pipeline and model inputs. Unit tests also played a role in catching errors at some stages, particularly for the dataset handling and model behavior.
@@ -405,6 +388,18 @@ Debugging during the project often depended on the individual group member. The 
 In addition, we occasionally used external tools such as large language models (LLMs) to help reason about errors and unexpected behaviors. LLMs were also helpful when dealing with dependency-related bugs, as none of the team members were fully familiar with that workflow or the underlying functionality. This was quite useful when debugging interactions between PyTorch, PyTorch Lightning, Hydra, Weights and Biases, etc.
 
 We do not consider the code to be perfect, and profiling was therefore also explored. We ran a profiling step using PyTorch’s built-in profiler on a single training iteration. The results showed that most of the computation time was spent in core operations such as matrix multiplications, linear layers and dropout, which we expected for transformer-based models. This confirmed that performance issues mainly came from the model architecture itself rather than inefficient code.
+
+Results:
+            aten::dropout         0.17%       5.661ms        44.17%        1.507s      23.542ms            64
+             aten::matmul         0.24%       8.286ms        39.27%        1.340s      10.072ms           133
+         aten::bernoulli_        38.05%        1.298s        38.05%        1.298s      20.281ms            64
+             aten::linear         0.04%       1.453ms        34.87%        1.189s      12.261ms            97
+                 aten::mm        34.47%        1.176s        34.47%        1.176s      12.122ms            97
+                aten::mul         7.35%     250.713ms         7.35%     250.791ms       1.872ms           134
+                aten::bmm         3.08%     104.935ms         3.08%     105.035ms       2.918ms            36
+ aten::cross_entropy_loss         0.07%       2.460ms         3.03%     103.379ms     103.379ms             1
+        aten::log_softmax         0.03%     987.416us         2.89%      98.668ms      98.668ms             1
+       aten::_log_softmax         2.86%      97.678ms         2.86%      97.678ms      97.678ms             1
 
 ## Working in the cloud
 
@@ -537,12 +532,14 @@ The API was not deployed to a cloud platform. Local deployment was sufficient fo
 > **the load testing did you get. If not, explain how you would do it.**
 >
 > Recommended answer length: 100-200 words.
->
-> Example:
-> *For unit testing we used ... and for load testing we used ... . The results of the load testing showed that ...*
-> *before the service crashed.*
->
 > Answer:
+Yes, we performed both unit testing and load testing of our API.
+
+For unit testing, we wrote tests using pytest to verify parts of the project such as data handling and API-related components. These tests were used to check that individual functions and modules behaved as expected and to catch errors early during development. While not all parts of the system were fully covered, the unit tests helped validate core functionality and improve code reliability.
+
+For load testing, we tested the deployed local API by sending multiple requests to the /translate endpoint in a short period of time using a shell script based on curl. In one test, 50 requests were sent sequentially to the API. The total execution time was approximately 8 seconds, resulting. On another test there were 1000 requests sent to the API with the total exuction time approx 156 seconds. This showed that the API was able to handle repeated requests without crashing and with stable response times under light load.
+
+![my_image](figures/requests.png)
 
 --- question 25 fill here ---
 
