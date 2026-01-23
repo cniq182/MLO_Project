@@ -33,7 +33,7 @@ dev = [
 package = true
 
 [tool.setuptools]
-package-dir = {"" = "src"}
+package-dir = {"en_es_translation" = "en_es_translation/src/en_es_translation"}
 packages = ["en_es_translation"]
 
 [project.scripts]
