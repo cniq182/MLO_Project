@@ -1,5 +1,3 @@
-print("Script started")
-
 import torch
 import time
 import torch.quantization
