@@ -363,10 +363,6 @@ The images illustrate how we used Weights & Biases to track and compare these ex
 >
 > Recommended answer length: 100-200 words.
 >
-> Example:
-> *For our project we developed several images: one for training, inference and deployment. For example to run the*
-> *training docker image: `docker run trainer:latest lr=1e-3 batch_size=64`. Link to docker file: <weblink>*
->
 > Answer:
 ## Docker
 
@@ -385,8 +381,6 @@ docker build -t en-es-translation:latest -f en_es_translation/Dockerfile en_es_t
 >
 > Recommended answer length: 100-200 words.
 >
-> Example:
->
 > Answer:
 
 Debugging during the project often depended on the individual group member. The majority of the issues were identified through error messages printed in the terminal when running the data processing and training scripts. We also relied on testing, adding print statements and logging to verify shapes, data flow, and other intermediate outputs. This was especially helpful when working with the data pipeline and model inputs. Unit tests also played a role in catching errors at some stages, particularly for the dataset handling and model behavior.
@@ -394,6 +388,18 @@ Debugging during the project often depended on the individual group member. The 
 In addition, we occasionally used external tools such as large language models (LLMs) to help reason about errors and unexpected behaviors. LLMs were also helpful when dealing with dependency-related bugs, as none of the team members were fully familiar with that workflow or the underlying functionality. This was quite useful when debugging interactions between PyTorch, PyTorch Lightning, Hydra, Weights and Biases, etc.
 
 We do not consider the code to be perfect, and profiling was therefore also explored. We ran a profiling step using PyTorch’s built-in profiler on a single training iteration. The results showed that most of the computation time was spent in core operations such as matrix multiplications, linear layers and dropout, which we expected for transformer-based models. This confirmed that performance issues mainly came from the model architecture itself rather than inefficient code.
+
+Results:
+            aten::dropout         0.17%       5.661ms        44.17%        1.507s      23.542ms            64
+             aten::matmul         0.24%       8.286ms        39.27%        1.340s      10.072ms           133
+         aten::bernoulli_        38.05%        1.298s        38.05%        1.298s      20.281ms            64
+             aten::linear         0.04%       1.453ms        34.87%        1.189s      12.261ms            97
+                 aten::mm        34.47%        1.176s        34.47%        1.176s      12.122ms            97
+                aten::mul         7.35%     250.713ms         7.35%     250.791ms       1.872ms           134
+                aten::bmm         3.08%     104.935ms         3.08%     105.035ms       2.918ms            36
+ aten::cross_entropy_loss         0.07%       2.460ms         3.03%     103.379ms     103.379ms             1
+        aten::log_softmax         0.03%     987.416us         2.89%      98.668ms      98.668ms             1
+       aten::_log_softmax         2.86%      97.678ms         2.86%      97.678ms      97.678ms             1
 
 ## Working in the cloud
 
