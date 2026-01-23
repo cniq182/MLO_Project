@@ -1,6 +1,5 @@
 from contextlib import asynccontextmanager
 from datetime import datetime
-import os
 from pathlib import Path
 from fastapi import FastAPI, BackgroundTasks
 from pydantic import BaseModel
