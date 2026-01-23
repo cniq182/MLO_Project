@@ -229,10 +229,6 @@ In larger projects, code quality and documentation are important because many pe
 >
 > Recommended answer length: 50-100 words.
 >
-> Example:
-> *In total we have implemented X tests. Primarily we are testing ... and ... as these the most critical parts of our*
-> *application but also ... .*
->
 > Answer:
 
 In total, we implemented 7 tests, covering both the data pipeline and the model set up. For the data part, the tests checked that the custom dataset behaves as expected and that the preprocessing step correctly creates the train, validation and test splits. Additionally, it was relevant to test that padding tokens in the labels were properly handled. We also test that preprocessing is automatically triggered when processed data is missing. For the model, the tests focus on the most critical functionality, which includes:
@@ -393,8 +389,6 @@ docker build -t en-es-translation:latest -f en_es_translation/Dockerfile en_es_t
 > Recommended answer length: 100-200 words.
 >
 > Example:
-> *Debugging method was dependent on group member. Some just used ... and others used ... . We did a single profiling*
-> *run of our main code at some point that showed ...*
 >
 > Answer:
 
@@ -486,12 +480,16 @@ We do not consider the code to be perfect, and profiling was therefore also expl
 > **not, explain how you would do it.**
 >
 > Recommended answer length: 100-200 words.
->
-> Example:
-> *We did manage to write an API for our model. We used FastAPI to do this. We did this by ... . We also added ...*
-> *to the API to make it more ...*
->
 > Answer:
+Yes, we managed to write an API for our model.
+
+We created the API using FastAPI. The API defines a POST endpoint called /translate that receives a JSON request containing a text string. The request format is defined using a Pydantic model, which ensures the input has the correct structure.
+
+The model is loaded once when the API starts using FastAPI’s lifespan function. The loaded model is stored in the application state and reused for all incoming requests. This prevents the model from being loaded again every time the endpoint is called.
+
+When a request is received, the API runs the model in inference mode using torch.no_grad() and returns the translation result. The API is run locally using Uvicorn.
+
+FastAPI’s built-in documentation (/docs) can be used to test the API and send requests to the model.
 
 --- question 23 fill here ---
 
@@ -502,12 +500,26 @@ We do not consider the code to be perfect, and profiling was therefore also expl
 >
 > Recommended answer length: 100-200 words.
 >
-> Example:
-> *For deployment we wrapped our model into application using ... . We first tried locally serving the model, which*
-> *worked. Afterwards we deployed it in the cloud, using ... . To invoke the service an user would call*
-> *`curl -X POST -F "file=@file.json"<weburl>`*
->
 > Answer:
+
+Yes, we successfully deployed our API locally.
+
+The API was implemented using FastAPI and deployed locally using the Uvicorn ASGI server. The service is started via a Python entry point that launches Uvicorn and exposes the application on port 8000 with the host set to 0.0.0.0, making it accessible from the local machine.
+
+The model is loaded at application startup using FastAPI’s lifespan context and stored in the application state. This ensures that the model is initialized only once and reused across incoming requests, which improves efficiency and follows good deployment practices.
+
+The deployed API exposes a POST endpoint at /translate, which accepts a JSON payload containing an input text and returns the translated output.
+
+The service can be invoked using curl, for example:
+curl --request POST \
+  --url http://localhost:8000/translate \
+  --header "content-type: application/json" \
+  --data '{"text": "Hello!"}'
+
+Additionally, the API provides interactive documentation via FastAPI’s Swagger UI at http://localhost:8000/docs, which can also be used to test the endpoint.
+
+Cloud deployement:
+The API was not deployed to a cloud platform. Local deployment was sufficient for development, testing, and demonstration purposes within the scope of this project, and allowed us to focus on model training, evaluation, and pipeline correctness.
 
 --- question 24 fill here ---
 
@@ -534,10 +546,15 @@ We do not consider the code to be perfect, and profiling was therefore also expl
 > Recommended answer length: 100-200 words.
 >
 > Example:
-> *We did not manage to implement monitoring. We would like to have monitoring implemented such that over time we could*
-> *measure ... and ... that would inform us about this ... behaviour of our application.*
 >
 > Answer:
+No, we did not implement monitoring of the deployed model.
+
+However, monitoring would be important for the longevity of the application. Monitoring helps track whether the API is running correctly and whether the model continues to perform as expected over time. For example, it could be used to detect errors, slow response times, or crashes in the API.
+
+Monitoring could also help identify changes in the input data, such as users sending very different text than what the model was trained on. This could indicate that the model’s performance may degrade over time and that retraining or updates are needed.
+
+In addition, monitoring resource usage such as CPU and memory would help prevent performance issues and ensure the service remains stable as usage increases.
 
 --- question 26 fill here ---
 
