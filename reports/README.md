@@ -631,7 +631,13 @@ In addition, monitoring resource usage such as CPU and memory would help prevent
 >
 > Answer:
 
---- question 30 fill here ---
+Looking back, the most significant struggles in this project weren’t found within the modeling itself, but rather in the complex background that holds a modern ML workflow together. A substantial portion of our development cycle was dedicated to the practicalities of making disparate systems communicate reliably—a process that proved to be a masterclass in navigating real-world technical constraints.
+
+Our first major test was getting used to collaborative version control. While we were all comfortable with basic Git, managing a fast and instense project with multiple contributors required a much higher level of discipline. Initially, frequent merge conflicts and integration issues slowed our momentum. We overcame this not just through better tooling, but creating clearer conventions and steps to follow in order to avoid mistakes, as well as increasing our active communication before pushing major changes. 
+
+The transition to cloud deployment and the DTU HPC cluster provided a different kind of issues. We quickly saw that it was complicated to set up experiments in a shared and high-demand environment. This came with a steep learning curve regarding permissions, job scheduling and reproducibility, since many of us had not used HPC before. Between resource scarcity and the nuances of cluster command structures, we were forced to rethink our workflow. We were expecting to train a big model with a fair amount of hyperparameters, but the limitations we found regarding the HPC access made us train a weaker model.
+
+Finally, while the strictness of our CI pipelines and the integration conflicts between Hydra and Weights & Biases were initially frustrating, they served as essential steps. Aligning our local environments with rigorous automation eventually made things more confortable and handy. By the end of the project, these technical challenges had fundamentally shifted our approach: we moved away from isolated experimentation toward building a robust and collaborative environment.
 
 ### Question 31
 
@@ -649,4 +655,15 @@ In addition, monitoring resource usage such as CPU and memory would help prevent
 > *We have used ChatGPT to help debug our code. Additionally, we used GitHub Copilot to help write some of our code.*
 > Answer:
 
---- question 31 fill here ---
+s250202 focused on experiment tracking and configuration. This included integrating wandb for logging training metrics and artifacts, setting up  logging, writing configuration files with Hydra, implementing model training code, handling input–output data collection from the deployed application, and dealing with the DTU HPC environment.
+
+s243927 worked primarily on performance optimization and evaluation. Their contributions included adding linting to continuous integration, experimenting with model quantization, compilation, and pruning to improve inference speed, running hyperparameter sweeps, profiling the code to identify bottlenecks, load testing the application, API building, and contributing to model training code.
+
+s250273 was responsible for data versioning and CI robustness. They set up data version control, created and connected a GCP storage bucket, data preprocessing and obtention, 
+and extended the CI pipeline with caching and multi-OS/Python/PyTorch testing, as well as adding linting.
+
+s254631 handled deployment and application-level components. This included building the FastAPI inference service, creating a frontend for the API, writing API tests and integrating them into CI, managing configurations with Hydra, adding command-line interfaces, running training on GCP, and implementing data loading and preprocessing.
+
+s250829 focused on project structure and testing. They initialized the repository using a cookiecutter template, implemented Dockerfiles and validated them locally, wrote unit tests for data and model components, computed code coverage, contributed to model training code, and set up the initial CI pipeline.
+
+In addition, all group members regularly met to explain their respective components to one another, ensuring shared understanding of the full project. Everyone also contributed to writing and reviewing the final report. Throughout the project, we used generative AI tools such as ChatGPT and Google Gemini to assist with debugging, brainstorming design decisions, refining ideas, and improving the clarity and structure of both code and written explanations.
