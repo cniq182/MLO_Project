@@ -1,0 +1,36 @@
+FROM python:3.10-slim
+
+ENV DEBIAN_FRONTEND=noninteractive
+WORKDIR /app
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    git \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install uv for dependency management
+RUN python -m pip install --no-cache-dir --upgrade pip \
+    && python -m pip install --no-cache-dir uv \
+    && uv --version
+
+# Copy project files
+COPY pyproject.toml uv.lock ./
+COPY README.md ./
+COPY en_es_translation/LICENSE ./
+
+# Copy the entire en_es_translation directory to maintain the package structure
+COPY en_es_translation/ ./en_es_translation/
+
+# Verify package structure
+RUN test -d /app/en_es_translation/src/en_es_translation
+
+# Install dependencies
+RUN uv sync
+
+# Set environment variables for Vertex AI
+ENV PYTHONUNBUFFERED=1
+ENV GOOGLE_CLOUD_PROJECT=""
+
+# Default command runs training
+# This can be overridden when submitting the job
+CMD ["uv", "run", "python", "-m", "en_es_translation.train"]

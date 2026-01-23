@@ -127,7 +127,8 @@ Group 37
 
 ### Question 2
 > **Enter the study number for each member in the group**
->
+>Example: sXXXXXX, sXXXXXX, sXXXXXX
+
 > Answer:
 
     s243927, s250273, s250202, s254631, s250829
@@ -159,6 +160,7 @@ We also used the Hugging Face Datasets package to load and preprocess the OpenSu
 > **through to get an exact copy of your environment.**
 >
 > Recommended answer length: 100-200 words
+> Example: We used ... for managing our dependencies. The list of dependencies was auto-generated using ... . To get a complete copy of our development environment, one would have to run the following commands
 
 Answer:
 
@@ -181,6 +183,7 @@ Following these steps ensures that a new team member can reproduce the same envi
 > **code. What did you fill out? Did you deviate from the template in some way?**
 >
 > Recommended answer length: 100-200 words
+> Example: From the cookiecutter template we have filled out the ... , ... and ... folder. We have removed the ... folder because we did not use any ... in our project. We have added an ... folder that contains ... for running our experiments.
 > Answer:
 
 We initialized our project using the course-provided cookiecutter template, which gave us a standardized and organized project structure.
@@ -197,7 +200,7 @@ We made a small deviation from the template by adding a  main.py file. This file
 > **explain with your own words why these concepts matters in larger projects.**
 >
 > Recommended answer length: 100-200 words.
->
+> Example: We used ... for linting and ... for formatting. We also used ... for typing and ... for documentation. These concepts are important in larger projects because ... . For example, typing ..
 > Answer:
 
 Yes, we implemented rules for code quality and formatting in the project.
@@ -219,7 +222,7 @@ In larger projects, code quality and documentation are important because many pe
 > **How many tests did you implement and what are they testing in your code?**
 >
 > Recommended answer length: 50-100 words.
->
+> Example: In total we have implemented X tests. Primarily we are testing ... and ... as these the most critical parts of our application but also ... .
 > Answer:
 
 In total, we implemented 7 tests, covering both the data pipeline and the model set up. For the data part, the tests checked that the custom dataset behaves as expected and that the preprocessing step correctly creates the train, validation and test splits. Additionally, it was relevant to test that padding tokens in the labels were properly handled. We also test that preprocessing is automatically triggered when processed data is missing. For the model, the tests focus on the most critical functionality, which includes:
@@ -236,7 +239,7 @@ In total, we implemented 7 tests, covering both the data pipeline and the model 
 > Recommended answer length: 100-200 words.
 >
 > Example:
-> *The total code coverage of code is X%, which includes all our source code. We are far from 100% coverage of our **
+> The total code coverage of code is X%, which includes all our source code. We are far from 100% coverage of our **
 > *code and even if we were then...*
 >
 > Answer:
@@ -292,7 +295,7 @@ Yes, we utilized DVC to manage our project's datasets. We configured DVC to trac
 >
 > Answer:
 
---- question 11 fill here ---
+We were using GitHub Actions as our CI. Our pipeline was triggered on every push to the branches of main and feature/**. The workflow focused on ensuring the code quality and functionality. In terms of the environment management, we used uv for fast dependency resolution and environmental setup. We used Ruff, which called for near instant static analysis of our code.  We also ran our tests using pytest combined with pytest-cov to monitor code coverage on every commit. We also tested against all three major platforms: Ubuntu, Windows and macOS.  We used the python version 3.13 in these three platforms. And in regards to caching, it is part of the pipeline with enable-cache:true. This prevented redownloading dependencies on subesquent runs, significantly speeding up the build time. You can view the specific configuration in our repository under .github/workflows/ci.yml 
 
 ## Running code and tracking experiments
 
@@ -362,7 +365,7 @@ The images illustrate how we used Weights & Biases to track and compare these ex
 > **experiments/project? Include how you would run your docker images and include a link to one of your docker files.**
 >
 > Recommended answer length: 100-200 words.
->
+> Example: For our project we developed several images: one for training, inference and deployment. For example to run the training docker image: docker run trainer:latest lr=1e-3 batch_size=64. Link to docker file:
 > Answer:
 ## Docker
 
@@ -380,7 +383,7 @@ docker build -t en-es-translation:latest -f en_es_translation/Dockerfile en_es_t
 > **try to profile your code or do you think it is already perfect?**
 >
 > Recommended answer length: 100-200 words.
->
+> Example: Debugging method was dependent on group member. Some just used ... and others used ... . We did a single profiling run of our main code at some point that showed ...
 > Answer:
 
 Debugging during the project often depended on the individual group member. The majority of the issues were identified through error messages printed in the terminal when running the data processing and training scripts. We also relied on testing, adding print statements and logging to verify shapes, data flow, and other intermediate outputs. This was especially helpful when working with the data pipeline and model inputs. Unit tests also played a role in catching errors at some stages, particularly for the dataset handling and model behavior.
@@ -389,17 +392,7 @@ In addition, we occasionally used external tools such as large language models (
 
 We do not consider the code to be perfect, and profiling was therefore also explored. We ran a profiling step using PyTorch’s built-in profiler on a single training iteration. The results showed that most of the computation time was spent in core operations such as matrix multiplications, linear layers and dropout, which we expected for transformer-based models. This confirmed that performance issues mainly came from the model architecture itself rather than inefficient code.
 
-Results:
-            aten::dropout         0.17%       5.661ms        44.17%        1.507s      23.542ms            64
-             aten::matmul         0.24%       8.286ms        39.27%        1.340s      10.072ms           133
-         aten::bernoulli_        38.05%        1.298s        38.05%        1.298s      20.281ms            64
-             aten::linear         0.04%       1.453ms        34.87%        1.189s      12.261ms            97
-                 aten::mm        34.47%        1.176s        34.47%        1.176s      12.122ms            97
-                aten::mul         7.35%     250.713ms         7.35%     250.791ms       1.872ms           134
-                aten::bmm         3.08%     104.935ms         3.08%     105.035ms       2.918ms            36
- aten::cross_entropy_loss         0.07%       2.460ms         3.03%     103.379ms     103.379ms             1
-        aten::log_softmax         0.03%     987.416us         2.89%      98.668ms      98.668ms             1
-       aten::_log_softmax         2.86%      97.678ms         2.86%      97.678ms      97.678ms             1
+![my_image](figures/profiling.png)
 
 ## Working in the cloud
 
@@ -435,7 +428,7 @@ Vertex AI: We leveraged Vertex AI to streamline our machine learning workflow.
 >
 > Answer:
 
---- question 18 fill here ---
+We used the Compute Engine to run training and experiments. We created an e2-medium VM with the following specs: 2 vCPUs, 4 GB memory, and 10 GB disk space. This configuration provided a balance between cost and performance for our needs. We start the training using a custom container built from the Dockerfile for training in the repository. The image is built and uploaded automatically to the GCP Artifact Registry using Cloud Build whenever we push changes to the main branch. 
 
 ### Question 19
 
@@ -444,7 +437,7 @@ Vertex AI: We leveraged Vertex AI to streamline our machine learning workflow.
 >
 > Answer:
 
---- question 19 fill here ---
+![my_image](figures/cloud/bucket.png)
 
 ### Question 20
 
@@ -453,7 +446,8 @@ Vertex AI: We leveraged Vertex AI to streamline our machine learning workflow.
 >
 > Answer:
 
---- question 20 fill here ---
+![my_image](figures/cloud/cloud-registry.png)
+![my_image](figures/cloud/cloud-registry-2.png)
 
 ### Question 21
 
@@ -462,7 +456,9 @@ Vertex AI: We leveraged Vertex AI to streamline our machine learning workflow.
 >
 > Answer:
 
---- question 21 fill here ---
+
+![my_image](figures/cloud/cloud-builds.png)
+![my_image](figures/cloud/cloud-builds-2.png)
 
 ### Question 22
 
@@ -477,7 +473,8 @@ Vertex AI: We leveraged Vertex AI to streamline our machine learning workflow.
 >
 > Answer:
 
---- question 22 fill here ---
+We managed to train our model in the cloud using Compute Engine. We did this by provisioning an e2-medium VM instance and deploying our existing Docker container directly to the instance. Our training workflow involved pushing our Docker image to Google Container Registry, SSH-ing into the Compute Engine instance, pulling the image, and running the container with the necessary volume mounts for data and model checkpoints. We automated this process through our CI/CD pipeline, which triggers training jobs on Compute Engine instances whenever we push updates to our repository.
+The reason we chose Compute Engine over Vertex AI was primarily due to easier integration with our existing infrastructure. Our team had already containerized our training pipeline using Docker, and Compute Engine allowed us to use these containers directly without modification. Additionally, Compute Engine integrated more seamlessly with our existing CI/CD pipelines, requiring minimal changes to our automation scripts.
 
 ## Deployment
 
@@ -487,6 +484,7 @@ Vertex AI: We leveraged Vertex AI to streamline our machine learning workflow.
 > **not, explain how you would do it.**
 >
 > Recommended answer length: 100-200 words.
+> Example: We did manage to write an API for our model. We used FastAPI to do this. We did this by ... . We also added ... to the API to make it more ...
 > Answer:
 Yes, we managed to write an API for our model.
 
@@ -506,7 +504,7 @@ FastAPI’s built-in documentation (/docs) can be used to test the API and send 
 > **preferably how you invoke your deployed service?**
 >
 > Recommended answer length: 100-200 words.
->
+> Example: For deployment we wrapped our model into application using ... . We first tried locally serving the model, which worked. Afterwards we deployed it in the cloud, using ... . To invoke the service an user would call curl -X POST -F "file=@file.json"<weburl>
 > Answer:
 
 Yes, we successfully deployed our API locally.
@@ -536,6 +534,7 @@ The API was not deployed to a cloud platform. Local deployment was sufficient fo
 > **the load testing did you get. If not, explain how you would do it.**
 >
 > Recommended answer length: 100-200 words.
+> Example: For functional testing we used pytest with httpx to test our API endpoints and ensure they returned the correct responses. For load testing we used locust with 100 concurrent users. The results of the load testing showed that our API could handle approximately 500 requests per second before the service crashed.
 > Answer:
 Yes, we performed both unit testing and load testing of our API.
 
@@ -554,7 +553,7 @@ For load testing, we tested the deployed local API by sending multiple requests 
 >
 > Recommended answer length: 100-200 words.
 >
-> Example:
+> Example: We did not manage to implement monitoring. We would like to have monitoring implemented such that over time we could measure ... and ... that would inform us about this ... behaviour of our application.
 >
 > Answer:
 No, we did not implement monitoring of the deployed model.
@@ -584,7 +583,8 @@ In addition, monitoring resource usage such as CPU and memory would help prevent
 >
 > Answer:
 
---- question 27 fill here ---
+ Two members used GCP, one of us used $1.15 in credits, while the other one used $5.81, resulting in a total of approximately $6.96 spent during development. The service costing the most was the Virtual Machine in Compute Engine due to the computational resources required for training and running experiments.
+Working in the cloud proved to be a valuable experience overall. The pay-as-you-go model allowed us to scale resources dynamically based on our needs, which was particularly useful during intensive training phases. The ability to spin up powerful VMs on demand without investing in local hardware was convenient, though it required careful monitoring to avoid unexpected costs. Cloud services also facilitated collaboration, as team members could access shared resources and results from anywhere.
 
 ### Question 28
 
@@ -600,7 +600,14 @@ In addition, monitoring resource usage such as CPU and memory would help prevent
 >
 > Answer:
 
---- question 28 fill here ---
+We implemented a frontend for our API that allows users to interact with the translation service through a graphical interface. The frontend provides a simple way to enter text and receive translated output from the /translate endpoint.
+
+During development and testing, Postman was used for manual testing of the API, while curl was used for automated requests and scripting. The frontend complements these tools by offering an easier and more user-friendly way to interact with the API, especially for demonstration purposes.
+
+This frontend helped us validate the full end-to-end pipeline, from user input in the interface to request handling in the API and model inference. Although it does not directly affect model performance, it improves usability and demonstrates how the API can be integrated into a real application.
+
+![my_image](figures/frontend.jpeg)
+
 
 ### Question 29
 
@@ -609,15 +616,22 @@ In addition, monitoring resource usage such as CPU and memory would help prevent
 > **overall steps in figure.**
 >
 > Recommended answer length: 200-400 words
->
-> Example:
->
-> *The starting point of the diagram is our local setup, where we integrated ... and ... and ... into our code.*
-> *Whenever we commit code and push to GitHub, it auto triggers ... and ... . From there the diagram shows ...*
->
+> Example: The starting point of the diagram is our local setup, where we integrated ... and ... and ... into our code. Whenever we commit code and push to GitHub, it auto triggers ... and ... . From there the diagram shows ...
 > Answer:
 
---- question 29 fill here ---
+![my_image](figures/Architecture.png)
+
+The figure shows the overall architecture of our system and the main steps in the workflow, from development to user interaction. The goal of this architecture is to make sure the  code quality, reproducibility, and a reliable way to run the application.
+
+The process starts on the developer’s local machine, where the code and machine learning components are developed. During development, the developer writes code, tests functionality, and runs automated code quality checks using Ruff. These checks makes sure that the code follows consistent formatting rules and avoids common errors before it is shared with others.
+
+Once the changes are ready, the code is committed and pushed to GitHub, where it is stored in a central repository. Pushing new code automatically triggers a GitHub Actions continuous integration (CI) pipeline. This pipeline runs a series of automated steps, including unit tests and linting with Ruff. These checks make sure that the code is correct, readable, and stable before it is built or used further.
+
+If all CI checks pass, the system builds a Docker image. The Docker image contains the full application, including the model and all required dependencies. Using Docker ensures that the application behaves the same way across different environments and machines.
+
+The Docker image is then used to run the application or API, which handles incoming requests and executes the model logic. Finally, the user interacts with the system by sending requests to the application and receiving responses, such as predictions or results.
+
+This architecture is well suited for larger projects because it separates development, testing, and usage clearly. Automated testing and linting reduce errors, Docker improves reproducibility, and GitHub Actions enables fast feedback. 
 
 ### Question 30
 
