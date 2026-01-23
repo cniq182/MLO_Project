@@ -375,8 +375,15 @@ We also used logging throughout the data processing and training steps to record
 > *training docker image: `docker run trainer:latest lr=1e-3 batch_size=64`. Link to docker file: <weblink>*
 >
 > Answer:
+## Docker
 
---- question 15 fill here ---
+In the project we used **Docker** to ensure a **reproducible and consistent execution environment**, avoiding dependency issues across different machines and operating systems. The **EN→ES translation inference pipeline** was containerized, including automatic dependency installation using `uv`, the project source code, and the required configuration files. This makes the application easy to run, test, and deploy in an isolated environment.
+
+To build the Docker image locally from the repository:
+
+```bash
+docker build -t en-es-translation:latest -f en_es_translation/Dockerfile en_es_translation
+
 
 ### Question 16
 
