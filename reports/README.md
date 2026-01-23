@@ -239,7 +239,7 @@ In total, we implemented 7 tests, covering both the data pipeline and the model 
 > Recommended answer length: 100-200 words.
 >
 > Example:
-> *The total code coverage of code is X%, which includes all our source code. We are far from 100% coverage of our **
+> The total code coverage of code is X%, which includes all our source code. We are far from 100% coverage of our **
 > *code and even if we were then...*
 >
 > Answer:
@@ -389,17 +389,7 @@ In addition, we occasionally used external tools such as large language models (
 
 We do not consider the code to be perfect, and profiling was therefore also explored. We ran a profiling step using PyTorch’s built-in profiler on a single training iteration. The results showed that most of the computation time was spent in core operations such as matrix multiplications, linear layers and dropout, which we expected for transformer-based models. This confirmed that performance issues mainly came from the model architecture itself rather than inefficient code.
 
-Results:
-            aten::dropout         0.17%       5.661ms        44.17%        1.507s      23.542ms            64
-             aten::matmul         0.24%       8.286ms        39.27%        1.340s      10.072ms           133
-         aten::bernoulli_        38.05%        1.298s        38.05%        1.298s      20.281ms            64
-             aten::linear         0.04%       1.453ms        34.87%        1.189s      12.261ms            97
-                 aten::mm        34.47%        1.176s        34.47%        1.176s      12.122ms            97
-                aten::mul         7.35%     250.713ms         7.35%     250.791ms       1.872ms           134
-                aten::bmm         3.08%     104.935ms         3.08%     105.035ms       2.918ms            36
- aten::cross_entropy_loss         0.07%       2.460ms         3.03%     103.379ms     103.379ms             1
-        aten::log_softmax         0.03%     987.416us         2.89%      98.668ms      98.668ms             1
-       aten::_log_softmax         2.86%      97.678ms         2.86%      97.678ms      97.678ms             1
+![my_image](figures/profiling.png)
 
 ## Working in the cloud
 
@@ -597,7 +587,14 @@ In addition, monitoring resource usage such as CPU and memory would help prevent
 >
 > Answer:
 
---- question 28 fill here ---
+We implemented a frontend for our API that allows users to interact with the translation service through a graphical interface. The frontend provides a simple way to enter text and receive translated output from the /translate endpoint.
+
+During development and testing, Postman was used for manual testing of the API, while curl was used for automated requests and scripting. The frontend complements these tools by offering an easier and more user-friendly way to interact with the API, especially for demonstration purposes.
+
+This frontend helped us validate the full end-to-end pipeline, from user input in the interface to request handling in the API and model inference. Although it does not directly affect model performance, it improves usability and demonstrates how the API can be integrated into a real application.
+
+![my_image](figures/frontend.jpeg)
+
 
 ### Question 29
 
@@ -635,7 +632,13 @@ This architecture is well suited for larger projects because it separates develo
 >
 > Answer:
 
---- question 30 fill here ---
+Looking back, the most significant struggles in this project weren’t found within the modeling itself, but rather in the complex background that holds a modern ML workflow together. A substantial portion of our development cycle was dedicated to the practicalities of making disparate systems communicate reliably—a process that proved to be a masterclass in navigating real-world technical constraints.
+
+Our first major test was getting used to collaborative version control. While we were all comfortable with basic Git, managing a fast and instense project with multiple contributors required a much higher level of discipline. Initially, frequent merge conflicts and integration issues slowed our momentum. We overcame this not just through better tooling, but creating clearer conventions and steps to follow in order to avoid mistakes, as well as increasing our active communication before pushing major changes. 
+
+The transition to cloud deployment and the DTU HPC cluster provided a different kind of issues. We quickly saw that it was complicated to set up experiments in a shared and high-demand environment. This came with a steep learning curve regarding permissions, job scheduling and reproducibility, since many of us had not used HPC before. Between resource scarcity and the nuances of cluster command structures, we were forced to rethink our workflow. We were expecting to train a big model with a fair amount of hyperparameters, but the limitations we found regarding the HPC access made us train a weaker model.
+
+Finally, while the strictness of our CI pipelines and the integration conflicts between Hydra and Weights & Biases were initially frustrating, they served as essential steps. Aligning our local environments with rigorous automation eventually made things more confortable and handy. By the end of the project, these technical challenges had fundamentally shifted our approach: we moved away from isolated experimentation toward building a robust and collaborative environment.
 
 ### Question 31
 
@@ -653,4 +656,15 @@ This architecture is well suited for larger projects because it separates develo
 > *We have used ChatGPT to help debug our code. Additionally, we used GitHub Copilot to help write some of our code.*
 > Answer:
 
---- question 31 fill here ---
+s250202 focused on experiment tracking and configuration. This included integrating wandb for logging training metrics and artifacts, setting up  logging, writing configuration files with Hydra, implementing model training code, handling input–output data collection from the deployed application, and dealing with the DTU HPC environment.
+
+s243927 worked primarily on performance optimization and evaluation. Their contributions included adding linting to continuous integration, experimenting with model quantization, compilation, and pruning to improve inference speed, running hyperparameter sweeps, profiling the code to identify bottlenecks, load testing the application, API building, and contributing to model training code.
+
+s250273 was responsible for data versioning and CI robustness. They set up data version control, created and connected a GCP storage bucket, data preprocessing and obtention, 
+and extended the CI pipeline with caching and multi-OS/Python/PyTorch testing, as well as adding linting.
+
+s254631 handled deployment and application-level components. This included building the FastAPI inference service, creating a frontend for the API, writing API tests and integrating them into CI, managing configurations with Hydra, adding command-line interfaces, running training on GCP, and implementing data loading and preprocessing.
+
+s250829 focused on project structure and testing. They initialized the repository using a cookiecutter template, implemented Dockerfiles and validated them locally, wrote unit tests for data and model components, computed code coverage, contributed to model training code, and set up the initial CI pipeline.
+
+In addition, all group members regularly met to explain their respective components to one another, ensuring shared understanding of the full project. Everyone also contributed to writing and reviewing the final report. Throughout the project, we used generative AI tools such as ChatGPT and Google Gemini to assist with debugging, brainstorming design decisions, refining ideas, and improving the clarity and structure of both code and written explanations.
