@@ -12,12 +12,14 @@ RUN python -m pip install --no-cache-dir --upgrade pip \
 
 # These files must exist inside en_es_translation/
 COPY pyproject.toml uv.lock ./
-COPY README.md LICENSE ./
+COPY README.md ./
+COPY en_es_translation/LICENSE ./
 
-# Source is en_es_translation/src/...
-COPY src/ ./src/
+# Copy the entire en_es_translation directory to maintain the package structure
+# pyproject.toml expects: en_es_translation/src/en_es_translation
+COPY en_es_translation/ ./en_es_translation/
 
-RUN test -d /app/src/en_es_translation
+RUN test -d /app/en_es_translation/src/en_es_translation
 
 RUN uv sync
 
