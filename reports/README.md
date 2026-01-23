@@ -295,7 +295,7 @@ Yes, we utilized DVC to manage our project's datasets. We configured DVC to trac
 >
 > Answer:
 
---- question 11 fill here ---
+We were using GitHub Actions as our CI. Our pipeline was triggered on every push to the branches of main and feature/**. The workflow focused on ensuring the code quality and functionality. In terms of the environment management, we used uv for fast dependency resolution and environmental setup. We used Ruff, which called for near instant static analysis of our code.  We also ran our tests using pytest combined with pytest-cov to monitor code coverage on every commit. We also tested against all three major platforms: Ubuntu, Windows and macOS.  We used the python version 3.13 in these three platforms. And in regards to caching, it is part of the pipeline with enable-cache:true. This prevented redownloading dependencies on subesquent runs, significantly speeding up the build time. You can view the specific configuration in our repository under .github/workflows/ci.yml 
 
 ## Running code and tracking experiments
 
