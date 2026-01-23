@@ -208,7 +208,7 @@ We also used type hints in important parts of the code so it is clear what kind 
 For documentation, we used README files and docstrings. The README files explain the overall project structure and how to run the code, while docstrings are used in important parts of the code, such as the data loading and model logic, to describe what the functions and classes do.
 
 In larger projects, code quality and documentation are important because many people may work on the same code over time. Clear code and good documentation make it easier for others to understand, use, and change the code, and help reduce mistakes and confusion.
-![image](files/reports/figures/ruff.png)
+![my_image](figures/ruff.png)
 ## Version control
 
 > In the following section we are interested in how version control was used in your project during development to
