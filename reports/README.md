@@ -243,8 +243,9 @@ In total, we implemented 7 tests, covering both the data pipeline and the model 
 > *code and even if we were then...*
 >
 > Answer:
+The total code coverage of our project is 44%, as measured using pytest with the pytest-cov plugin. This coverage mainly comes from unit tests targeting the data processing pipeline (data.py) and the model construction and training logic (model.py), while other components such as training scripts, prediction logic, and evaluation utilities currently have little or no test coverage. At this stage of the project, this level of coverage is acceptable because it focuses on the most critical parts of the system, where errors are most likely to have severe consequences.
 
---- question 8 fill here ---
+Even if our code coverage were 100% or close to it, we would not fully trust the code to be error free. Code coverage only indicates which lines of code are executed during tests, not whether the tests thoroughly verify correctness or cover meaningful edge cases. In machine learning systems, many failures arise from data-related issues, numerical instability, or distribution shifts, which unit tests and high coverage alone cannot capture. Therefore, code coverage should be seen as a useful diagnostic tool, but it must be complemented by well-designed tests, integration testing, and empirical evaluation of model behavior.
 
 ### Question 9
 
