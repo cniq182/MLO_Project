@@ -526,12 +526,14 @@ The API was not deployed to a cloud platform. Local deployment was sufficient fo
 > **the load testing did you get. If not, explain how you would do it.**
 >
 > Recommended answer length: 100-200 words.
->
-> Example:
-> *For unit testing we used ... and for load testing we used ... . The results of the load testing showed that ...*
-> *before the service crashed.*
->
 > Answer:
+Yes, we performed both unit testing and load testing of our API.
+
+For unit testing, we wrote tests using pytest to verify parts of the project such as data handling and API-related components. These tests were used to check that individual functions and modules behaved as expected and to catch errors early during development. While not all parts of the system were fully covered, the unit tests helped validate core functionality and improve code reliability.
+
+For load testing, we tested the deployed local API by sending multiple requests to the /translate endpoint in a short period of time using a shell script based on curl. In one test, 50 requests were sent sequentially to the API. The total execution time was approximately 8 seconds, resulting. On another test there were 1000 requests sent to the API with the total exuction time approx 156 seconds. This showed that the API was able to handle repeated requests without crashing and with stable response times under light load.
+
+![my_image](figures/requests.png)
 
 --- question 25 fill here ---
 
