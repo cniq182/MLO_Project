@@ -1,5 +1,7 @@
 import zipfile
 import logging
+import os
+import tempfile
 from pathlib import Path
 
 import requests
@@ -25,6 +27,14 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
+# GCS support
+try:
+    from google.cloud import storage
+    GCS_AVAILABLE = True
+except ImportError:
+    GCS_AVAILABLE = False
+    logger.warning("google-cloud-storage not available. GCS paths will not work.")
+
 URL = "https://object.pouta.csc.fi/OPUS-OpenSubtitles/v2024/moses/en-es.txt.zip"
 MODEL_CHECKPOINT = "google-t5/t5-small"
 
@@ -48,21 +58,98 @@ class MyDataset(Dataset):
         }
 
 
+def _is_gcs_path(path: str) -> bool:
+    """Check if path is a GCS path."""
+    return path.startswith("gs://")
+
+
+def _download_from_gcs(gcs_path: str, local_path: Path) -> Path:
+    """Download a file from GCS to local path."""
+    if not GCS_AVAILABLE:
+        raise ImportError("google-cloud-storage is required for GCS paths. Install it with: pip install google-cloud-storage")
+    
+    # Parse GCS path: gs://bucket/path/to/file
+    if not gcs_path.startswith("gs://"):
+        raise ValueError(f"Invalid GCS path: {gcs_path}")
+    
+    parts = gcs_path[5:].split("/", 1)  # Remove 'gs://' prefix
+    bucket_name = parts[0]
+    blob_name = parts[1] if len(parts) > 1 else ""
+    
+    logger.info(f"Downloading from GCS: {gcs_path} -> {local_path}")
+    
+    # Create local directory if needed
+    local_path.parent.mkdir(parents=True, exist_ok=True)
+    
+    # Download from GCS
+    storage_client = storage.Client()
+    bucket = storage_client.bucket(bucket_name)
+    blob = bucket.blob(blob_name)
+    blob.download_to_filename(str(local_path))
+    
+    logger.info(f"Successfully downloaded {blob_name} from GCS")
+    return local_path
+
+
+def _get_local_path(gcs_path: str, local_cache_dir: Path = None) -> Path:
+    """Get local path for a file, downloading from GCS if necessary."""
+    if not _is_gcs_path(gcs_path):
+        return Path(gcs_path)
+    
+    # Use temp directory or provided cache directory
+    if local_cache_dir is None:
+        local_cache_dir = Path(tempfile.gettempdir()) / "gcs_cache"
+    
+    local_cache_dir.mkdir(parents=True, exist_ok=True)
+    
+    # Create local path preserving structure
+    # gs://bucket/data/processed/train_data.pt -> /tmp/gcs_cache/bucket/data/processed/train_data.pt
+    parts = gcs_path[5:].split("/")  # Remove 'gs://' prefix
+    bucket_name = parts[0]
+    file_path = "/".join(parts[1:])
+    
+    local_path = local_cache_dir / bucket_name / file_path
+    
+    # Download if not exists locally
+    if not local_path.exists():
+        _download_from_gcs(gcs_path, local_path)
+    
+    return local_path
+
+
 def get_datasets(
     processed_dir: str = "en_es_translation/data/processed",
 ) -> tuple[MyDataset, MyDataset, MyDataset]:
-    processed_path = Path(processed_dir)
-    train_file = processed_path / "train_data.pt"
-    eval_file = processed_path / "eval_data.pt"
-    test_file = processed_path / "test_data.pt"
-
-    logger.debug(f"Checking for processed files in: {processed_path}")
-
-    if not (train_file.exists() and eval_file.exists() and test_file.exists()):
-        logger.warning("Processed files missing! Initiating preprocessing...")
-        preprocess(processed_dir=str(processed_path))
+    # Handle GCS paths
+    if _is_gcs_path(processed_dir):
+        logger.info(f"Detected GCS path: {processed_dir}")
+        # For GCS, download files to local cache
+        local_cache = Path(tempfile.gettempdir()) / "gcs_cache" / "datasets"
+        train_file = _get_local_path(f"{processed_dir}/train_data.pt", local_cache)
+        eval_file = _get_local_path(f"{processed_dir}/eval_data.pt", local_cache)
+        test_file = _get_local_path(f"{processed_dir}/test_data.pt", local_cache)
     else:
-        logger.info("All processed files found on disk.")
+        processed_path = Path(processed_dir)
+        train_file = processed_path / "train_data.pt"
+        eval_file = processed_path / "eval_data.pt"
+        test_file = processed_path / "test_data.pt"
+
+    logger.debug(f"Checking for processed files: train={train_file}, eval={eval_file}, test={test_file}")
+
+    # Check if files exist (for local paths, trigger preprocessing if missing)
+    if not _is_gcs_path(processed_dir):
+        if not (train_file.exists() and eval_file.exists() and test_file.exists()):
+            logger.warning("Processed files missing! Initiating preprocessing...")
+            preprocess(processed_dir=str(processed_path))
+        else:
+            logger.info("All processed files found on disk.")
+    else:
+        # For GCS paths, files should already be downloaded
+        if not (train_file.exists() and eval_file.exists() and test_file.exists()):
+            raise FileNotFoundError(
+                f"Processed data files not found in GCS: {processed_dir}\n"
+                "Please ensure train_data.pt, eval_data.pt, and test_data.pt exist in the GCS bucket."
+            )
 
     return (
         MyDataset(train_file),

@@ -14,6 +14,7 @@ import logging
 
 from .model import Model
 from .data import get_datasets
+from .gcs_checkpoint_callback import GCSCheckpointCallback
 
 # Logging Setup
 log_dir = Path("logs_logging")
@@ -111,21 +112,49 @@ def train(cfg: DictConfig):
     # --------------------------------------------------
     # Normal training
     # --------------------------------------------------
-    os.makedirs(checkpoint_dir, exist_ok=True)
+    # Handle GCS checkpoint paths
+    is_gcs_checkpoint = checkpoint_dir.startswith("gs://")
+    
+    if is_gcs_checkpoint:
+        # For GCS, save locally first, then upload
+        local_checkpoint_dir = "/tmp/checkpoints"
+        os.makedirs(local_checkpoint_dir, exist_ok=True)
+        logger.info(f"Using GCS checkpoint path: {checkpoint_dir}")
+        logger.info(f"Local checkpoint directory: {local_checkpoint_dir}")
+    else:
+        local_checkpoint_dir = checkpoint_dir
+        os.makedirs(checkpoint_dir, exist_ok=True)
+    
     checkpoint_callback = ModelCheckpoint(
-        dirpath=checkpoint_dir,
+        dirpath=local_checkpoint_dir,
         filename=cfg.train.checkpoint_filename,
         monitor="val_loss", # Must match the 'metric' in sweep.yaml
         mode="min",
         save_top_k=1,
     )
+    
+    # Set up callbacks
+    callbacks = [checkpoint_callback]
+    
+    # Add GCS upload callback if using GCS
+    if is_gcs_checkpoint:
+        try:
+            gcs_callback = GCSCheckpointCallback(
+                gcs_checkpoint_dir=checkpoint_dir,
+                local_checkpoint_dir=local_checkpoint_dir,
+            )
+            callbacks.append(gcs_callback)
+            logger.info("GCS checkpoint upload enabled")
+        except Exception as e:
+            logger.warning(f"Failed to initialize GCS checkpoint callback: {e}")
+            logger.warning("Checkpoints will only be saved locally")
 
     trainer = pl.Trainer(
         max_epochs=cfg.train.epochs,
         accelerator=cfg.train.accelerator,
         devices=cfg.train.devices,
         logger=wandb_logger,
-        callbacks=[checkpoint_callback],
+        callbacks=callbacks,
         log_every_n_steps=cfg.train.log_every_n_steps,
     )
 
