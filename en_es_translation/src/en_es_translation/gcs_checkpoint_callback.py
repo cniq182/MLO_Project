@@ -3,9 +3,7 @@ Callback to upload PyTorch Lightning checkpoints to GCS.
 """
 
 import logging
-import os
 from pathlib import Path
-from typing import Optional
 
 from pytorch_lightning.callbacks import ModelCheckpoint
 from pytorch_lightning.callbacks.callback import Callback

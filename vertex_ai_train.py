@@ -12,7 +12,6 @@ Usage:
 
 import argparse
 import os
-from pathlib import Path
 from google.cloud import aiplatform
 from google.cloud.aiplatform import CustomTrainingJob
 
@@ -125,7 +124,7 @@ def submit_training_job(
         sync=False,  # Don't wait for completion
     )
     
-    print(f"\nJob submitted successfully!")
+    print("\nJob submitted successfully!")
     print(f"Job name: {job_display_name}")
     print(f"Monitor your job at: https://console.cloud.google.com/vertex-ai/training/custom-jobs?project={project_id}")
 
@@ -204,13 +203,13 @@ def main():
         "--gcs-data-path",
         type=str,
         default=None,
-        help=f"GCS path to processed data (default: gs://BUCKET/data/processed)",
+        help="GCS path to processed data (default: gs://BUCKET/data/processed)",
     )
     parser.add_argument(
         "--gcs-checkpoint-path",
         type=str,
         default=None,
-        help=f"GCS path for checkpoints (default: gs://BUCKET/checkpoints)",
+        help="GCS path for checkpoints (default: gs://BUCKET/checkpoints)",
     )
     parser.add_argument(
         "--job-display-name",
