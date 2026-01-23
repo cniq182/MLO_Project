@@ -127,7 +127,8 @@ Group 37
 
 ### Question 2
 > **Enter the study number for each member in the group**
->
+>Example: sXXXXXX, sXXXXXX, sXXXXXX
+
 > Answer:
 
     s243927, s250273, s250202, s254631, s250829
@@ -159,6 +160,7 @@ We also used the Hugging Face Datasets package to load and preprocess the OpenSu
 > **through to get an exact copy of your environment.**
 >
 > Recommended answer length: 100-200 words
+> Example: We used ... for managing our dependencies. The list of dependencies was auto-generated using ... . To get a complete copy of our development environment, one would have to run the following commands
 
 Answer:
 
@@ -181,6 +183,7 @@ Following these steps ensures that a new team member can reproduce the same envi
 > **code. What did you fill out? Did you deviate from the template in some way?**
 >
 > Recommended answer length: 100-200 words
+> Example: From the cookiecutter template we have filled out the ... , ... and ... folder. We have removed the ... folder because we did not use any ... in our project. We have added an ... folder that contains ... for running our experiments.
 > Answer:
 
 We initialized our project using the course-provided cookiecutter template, which gave us a standardized and organized project structure.
@@ -197,7 +200,7 @@ We made a small deviation from the template by adding a  main.py file. This file
 > **explain with your own words why these concepts matters in larger projects.**
 >
 > Recommended answer length: 100-200 words.
->
+> Example: We used ... for linting and ... for formatting. We also used ... for typing and ... for documentation. These concepts are important in larger projects because ... . For example, typing ..
 > Answer:
 
 Yes, we implemented rules for code quality and formatting in the project.
@@ -219,7 +222,7 @@ In larger projects, code quality and documentation are important because many pe
 > **How many tests did you implement and what are they testing in your code?**
 >
 > Recommended answer length: 50-100 words.
->
+> Example: In total we have implemented X tests. Primarily we are testing ... and ... as these the most critical parts of our application but also ... .
 > Answer:
 
 In total, we implemented 7 tests, covering both the data pipeline and the model set up. For the data part, the tests checked that the custom dataset behaves as expected and that the preprocessing step correctly creates the train, validation and test splits. Additionally, it was relevant to test that padding tokens in the labels were properly handled. We also test that preprocessing is automatically triggered when processed data is missing. For the model, the tests focus on the most critical functionality, which includes:
@@ -362,7 +365,7 @@ The images illustrate how we used Weights & Biases to track and compare these ex
 > **experiments/project? Include how you would run your docker images and include a link to one of your docker files.**
 >
 > Recommended answer length: 100-200 words.
->
+> Example: For our project we developed several images: one for training, inference and deployment. For example to run the training docker image: docker run trainer:latest lr=1e-3 batch_size=64. Link to docker file:
 > Answer:
 ## Docker
 
@@ -380,7 +383,7 @@ docker build -t en-es-translation:latest -f en_es_translation/Dockerfile en_es_t
 > **try to profile your code or do you think it is already perfect?**
 >
 > Recommended answer length: 100-200 words.
->
+> Example: Debugging method was dependent on group member. Some just used ... and others used ... . We did a single profiling run of our main code at some point that showed ...
 > Answer:
 
 Debugging during the project often depended on the individual group member. The majority of the issues were identified through error messages printed in the terminal when running the data processing and training scripts. We also relied on testing, adding print statements and logging to verify shapes, data flow, and other intermediate outputs. This was especially helpful when working with the data pipeline and model inputs. Unit tests also played a role in catching errors at some stages, particularly for the dataset handling and model behavior.
@@ -487,6 +490,7 @@ Vertex AI: We leveraged Vertex AI to streamline our machine learning workflow.
 > **not, explain how you would do it.**
 >
 > Recommended answer length: 100-200 words.
+> Example: We did manage to write an API for our model. We used FastAPI to do this. We did this by ... . We also added ... to the API to make it more ...
 > Answer:
 Yes, we managed to write an API for our model.
 
@@ -506,7 +510,7 @@ FastAPI’s built-in documentation (/docs) can be used to test the API and send 
 > **preferably how you invoke your deployed service?**
 >
 > Recommended answer length: 100-200 words.
->
+> Example: For deployment we wrapped our model into application using ... . We first tried locally serving the model, which worked. Afterwards we deployed it in the cloud, using ... . To invoke the service an user would call curl -X POST -F "file=@file.json"<weburl>
 > Answer:
 
 Yes, we successfully deployed our API locally.
@@ -536,6 +540,7 @@ The API was not deployed to a cloud platform. Local deployment was sufficient fo
 > **the load testing did you get. If not, explain how you would do it.**
 >
 > Recommended answer length: 100-200 words.
+> Example: For functional testing we used pytest with httpx to test our API endpoints and ensure they returned the correct responses. For load testing we used locust with 100 concurrent users. The results of the load testing showed that our API could handle approximately 500 requests per second before the service crashed.
 > Answer:
 Yes, we performed both unit testing and load testing of our API.
 
@@ -554,7 +559,7 @@ For load testing, we tested the deployed local API by sending multiple requests 
 >
 > Recommended answer length: 100-200 words.
 >
-> Example:
+> Example: We did not manage to implement monitoring. We would like to have monitoring implemented such that over time we could measure ... and ... that would inform us about this ... behaviour of our application.
 >
 > Answer:
 No, we did not implement monitoring of the deployed model.
@@ -609,7 +614,7 @@ In addition, monitoring resource usage such as CPU and memory would help prevent
 > **overall steps in figure.**
 >
 > Recommended answer length: 200-400 words
->
+> Example: The starting point of the diagram is our local setup, where we integrated ... and ... and ... into our code. Whenever we commit code and push to GitHub, it auto triggers ... and ... . From there the diagram shows ...
 > Answer:
 
 ![my_image](figures/Architecture.png)
