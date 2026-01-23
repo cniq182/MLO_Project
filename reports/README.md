@@ -121,14 +121,16 @@ will check the repositories and the code to verify your answers.
 ### Question 1
 > **Enter the group number you signed up on <learn.inside.dtu.dk>**
 >
-> Group 37
+> Answer: 
+>
+Group 37
 
 ### Question 2
 > **Enter the study number for each member in the group**
 >
 > Answer:
 
-    s243927, s250273, s250202,s254631,s250829
+    s243927, s250273, s250202, s254631, s250829
 
 ### Question 3
 > **Did you end up using any open-source frameworks/packages not covered in the course during your project? If so**
@@ -361,7 +363,13 @@ We also used logging throughout the data processing and training steps to record
 >
 > Answer:
 
---- question 14 fill here ---
+Due to computational access limitations, we limited our experiments to 4 sweep runs and the number of hyperparameters explored to keep training feasible. We initially attempted to use the DTU's hpc, but encountered setup difficulties as well as availability issues, since the system's resources were often occupied. As a result, we focused on a small set of hyperparameters that still allowed us to analyze training behavior and model performance.
+
+The images illustrate how we used Weights & Biases to track and compare these experiments. Across all runs, the core metrics logged were training loss, validation loss and key hyperparameters such as learning rate and batch size. The first image shows training loss over steps for each run. These curves help diagnose convergence behavior and stability, as well as allowing direct comparison of how different hyperparameter choices affect learning dynamics. The second one compares the final validation loss across runs with a bar chart, making it easy to rank experiments and select the best configuration. Finally, the third visualization shows the sweep over learning rate and batch size, with validation loss used as the target metric. This representation is useful for identifying interactions between hyperparameters. In this experiment, we can observe that the training with batch size 16 and learning rate 0.001 obtains the lowest validation loss.
+
+![my_image](figures/wandb_train_loss.png)
+![my_image](figures/wandb_val_loss.png)
+![my_image](figures/wandb_graph.png)
 
 ### Question 15
 
