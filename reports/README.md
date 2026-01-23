@@ -480,7 +480,8 @@ We used the Compute Engine to run training and experiments. We created an e2-med
 >
 > Answer:
 
---- question 22 fill here ---
+We managed to train our model in the cloud using Compute Engine. We did this by provisioning an e2-medium VM instance and deploying our existing Docker container directly to the instance. Our training workflow involved pushing our Docker image to Google Container Registry, SSH-ing into the Compute Engine instance, pulling the image, and running the container with the necessary volume mounts for data and model checkpoints. We automated this process through our CI/CD pipeline, which triggers training jobs on Compute Engine instances whenever we push updates to our repository.
+The reason we chose Compute Engine over Vertex AI was primarily due to easier integration with our existing infrastructure. Our team had already containerized our training pipeline using Docker, and Compute Engine allowed us to use these containers directly without modification. Additionally, Compute Engine integrated more seamlessly with our existing CI/CD pipelines, requiring minimal changes to our automation scripts.
 
 ## Deployment
 
