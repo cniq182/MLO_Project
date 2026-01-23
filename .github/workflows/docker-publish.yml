@@ -35,8 +35,8 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v6
         with:
-          context: en_es_translation
-          file: en_es_translation/Dockerfile
+          context: .
+          file: ./Dockerfile
           push: true
 
           tags: |
