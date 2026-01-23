@@ -435,7 +435,7 @@ Vertex AI: We leveraged Vertex AI to streamline our machine learning workflow.
 >
 > Answer:
 
---- question 18 fill here ---
+We used the Compute Engine to run training and experiments. We created an e2-medium VM with the following specs: 2 vCPUs, 4 GB memory, and 10 GB disk space. This configuration provided a balance between cost and performance for our needs. We start the training using a custom container built from the Dockerfile for training in the repository. The image is built and uploaded automatically to the GCP Artifact Registry using Cloud Build whenever we push changes to the main branch. 
 
 ### Question 19
 
@@ -444,7 +444,7 @@ Vertex AI: We leveraged Vertex AI to streamline our machine learning workflow.
 >
 > Answer:
 
---- question 19 fill here ---
+![my_image](figures/cloud/bucket.png)
 
 ### Question 20
 
@@ -453,7 +453,8 @@ Vertex AI: We leveraged Vertex AI to streamline our machine learning workflow.
 >
 > Answer:
 
---- question 20 fill here ---
+![my_image](figures/cloud/cloud-registry.png)
+![my_image](figures/cloud/cloud-registry-2.png)
 
 ### Question 21
 
@@ -462,7 +463,9 @@ Vertex AI: We leveraged Vertex AI to streamline our machine learning workflow.
 >
 > Answer:
 
---- question 21 fill here ---
+
+![my_image](figures/cloud/cloud-builds.png)
+![my_image](figures/cloud/cloud-builds-2.png)
 
 ### Question 22
 
