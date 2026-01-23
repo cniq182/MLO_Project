@@ -609,7 +609,14 @@ In addition, monitoring resource usage such as CPU and memory would help prevent
 >
 > Answer:
 
---- question 28 fill here ---
+We implemented a frontend for our API that allows users to interact with the translation service through a graphical interface. The frontend provides a simple way to enter text and receive translated output from the /translate endpoint.
+
+During development and testing, Postman was used for manual testing of the API, while curl was used for automated requests and scripting. The frontend complements these tools by offering an easier and more user-friendly way to interact with the API, especially for demonstration purposes.
+
+This frontend helped us validate the full end-to-end pipeline, from user input in the interface to request handling in the API and model inference. Although it does not directly affect model performance, it improves usability and demonstrates how the API can be integrated into a real application.
+
+![my_image](figures/frontend.jpeg)
+
 
 ### Question 29
 
