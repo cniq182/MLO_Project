@@ -26,4 +26,5 @@ RUN test -d /app/src/en_es_translation
 # Install deps
 RUN uv sync
 
+# IMPORTANT: -m takes a module name, not a path
 CMD ["uv", "run", "python", "-m", "en_es_translation.predict"]

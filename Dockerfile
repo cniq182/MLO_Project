@@ -18,12 +18,13 @@ COPY pyproject.toml uv.lock ./
 COPY README.md LICENSE ./
 
 # Your code layout inside context is: src/en_es_translation/...
-COPY src ./en_es_translation/src
+COPY src ./src
 
 # Fail fast if structure is wrong
-RUN test -d /app/en_es_translation/src/en_es_translation
+RUN test -d /app/src/en_es_translation
 
 # Install deps
 RUN uv sync
 
-CMD ["uv", "run", "python", "-m", "en_es_translation/src/en_es_translation.predict"]
+# IMPORTANT: -m takes a module name, not a path
+CMD ["uv", "run", "python", "-m", "en_es_translation.predict"]
